@@ -1,5 +1,5 @@
 const recipesData = {
-  ingredients: ['卵', '牛乳', '鶏肉', '玉ねぎ', 'トマト'],
+  ingredients: ['卵', '牛乳', '鶏肉', '玉ねぎ', 'トマト', '豚肉', 'キャベツ', 'じゃがいも', 'にんじん', 'ピーマン', '豆腐', '鮭', 'バター', '塩'],
   recipes: [
     {
       id: 1,
@@ -18,6 +18,24 @@ const recipesData = {
       name: 'トマトスープ',
       ingredients: ['トマト', '玉ねぎ'],
       cookingTime: 20
+    },
+    {
+      id: 4,
+      name: '豚肉とキャベツのみそ炒め',
+      ingredients: ['豚肉', 'キャベツ', 'にんじん', 'ピーマン'],
+      cookingTime: 15
+    },
+    {
+      id: 5,
+      name: '鮭のバターソテー',
+      ingredients: ['鮭', 'バター', '塩'],
+      cookingTime: 12
+    },
+    {
+      id: 6,
+      name: '豆腐ハンバーグ',
+      ingredients: ['豆腐', '鶏肉', '玉ねぎ'],
+      cookingTime: 25
     }
   ]
 };
