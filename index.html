@@ -3,25 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PantryChef Pro - AI レシピジェネレーター</title>
+  <title>PantryChef Pro - 忙しいママのための簡単レシピ</title>
   <link rel="manifest" href="manifest.json">
-  <meta name="description" content="手持ち食材から最適なレシピを提案する AI アプリ">
-  <meta property="og:title" content="PantryChef Pro">
-  <meta property="og:description" content="冷蔵庫の食材から AI がレシピを提案">
-  <meta property="og:image" content="https://via.placeholder.com/1200x630.png">
+  <meta name="description" content="忙しい共働きママの味方！冷蔵庫の食材から時短レシピを提案。食材ロス削減で節約も♪">
+  <meta property="og:title" content="PantryChef Pro - 忙しいママのレシピアプリ">
+  <meta property="og:description" content="冷蔵庫の残り物で何作ろう？AIが15分以内の時短レシピを提案！">
   <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAwAB/3WuuKQAAAAASUVORK5CYII=">
+  
+  <!-- External Libraries -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --primary-color: #4CAF50;
       --primary-dark: #388E3C;
-      --secondary-color: #FF6B35;
-      --background: #F8F9FA;
+      --secondary-color: #FF9800;
+      --accent-color: #2196F3;
+      --warm-pink: #FFE0E6;
+      --soft-green: #E8F5E8;
+      --light-orange: #FFF3E0;
+      --background: #FAFAFA;
       --surface: #FFFFFF;
-      --text-primary: #212121;
-      --text-secondary: #757575;
+      --text-primary: #2E2E2E;
+      --text-secondary: #666666;
       --border: #E0E0E0;
-      --shadow: 0 2px 8px rgba(0,0,0,0.1);
-      --radius: 12px;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 8px 25px rgba(0,0,0,0.12);
+      --radius: 16px;
     }
 
     * {
@@ -31,179 +43,384 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--background);
       color: var(--text-primary);
-      line-height: 1.6;
+      line-height: 1.7;
+      font-weight: 400;
     }
 
-    .container {
+    .mama-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, #66BB6A 100%);
+      color: white;
+      padding: 3rem 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mama-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      transform: rotate(45deg);
+    }
+
+    .mama-header::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -5%;
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .app-logo {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .app-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .app-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.95;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    .mama-benefits {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .benefit-item {
+      background: rgba(255,255,255,0.15);
+      padding: 1rem 1.5rem;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .main-container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 1.5rem;
+      position: relative;
+      margin-top: -2rem;
     }
 
-    header {
-      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-      color: white;
-      padding: 2rem 0;
-      text-align: center;
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      padding: 2rem;
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
     }
 
-    .header-content h1 {
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .stat-icon {
       font-size: 2.5rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
       font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
     }
 
-    .header-content p {
-      font-size: 1.1rem;
-      opacity: 0.9;
+    .stat-label {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      font-weight: 500;
     }
 
-    main {
-      padding: 2rem 0;
-    }
-
-    .section {
+    .mama-section {
       background: var(--surface);
       border-radius: var(--radius);
-      padding: 2rem;
-      margin-bottom: 2rem;
+      padding: 2.5rem;
+      margin-bottom: 2.5rem;
       box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 3px solid #f0f0f0;
+    }
+
+    .section-icon {
+      font-size: 2rem;
+      margin-right: 1rem;
+      padding: 1rem;
+      background: var(--soft-green);
+      border-radius: 50%;
+      color: var(--primary-color);
     }
 
     .section-title {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      font-weight: 700;
       color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      margin: 0;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+      font-weight: 400;
+    }
+
+    .ingredients-container {
+      background: var(--soft-green);
+      padding: 2rem;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
     }
 
     .ingredients-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 1rem;
-      margin-bottom: 1.5rem;
     }
 
-    .ingredient-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem;
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      transition: all 0.3s ease;
+    .ingredient-card {
+      background: var(--surface);
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 1rem;
       cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      position: relative;
       user-select: none;
     }
 
-    .ingredient-item:hover {
+    .ingredient-card:hover {
       border-color: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.2);
+    }
+
+    .ingredient-card.selected {
+      border-color: var(--primary-color);
+      background: linear-gradient(135deg, var(--soft-green), rgba(76, 175, 80, 0.1));
       transform: translateY(-2px);
     }
 
-    .ingredient-item.selected {
-      border-color: var(--primary-color);
-      background: rgba(76, 175, 80, 0.1);
+    .ingredient-card .ingredient-emoji {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
     }
 
-    .ingredient-item input[type="checkbox"] {
+    .ingredient-card .ingredient-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .ingredient-card input[type="checkbox"] {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
       width: 20px;
       height: 20px;
       accent-color: var(--primary-color);
     }
 
-    .custom-ingredient {
+    .custom-ingredient-section {
+      background: var(--light-orange);
+      padding: 2rem;
+      border-radius: var(--radius);
+      margin-top: 2rem;
+    }
+
+    .custom-ingredient-header {
       display: flex;
-      gap: 1rem;
+      align-items: center;
       margin-bottom: 1.5rem;
     }
 
-    .custom-ingredient input {
-      flex: 1;
-      padding: 0.75rem;
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      font-size: 1rem;
+    .custom-ingredient-icon {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+      color: var(--secondary-color);
     }
 
-    .btn {
-      padding: 0.75rem 1.5rem;
+    .custom-ingredient-input {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .custom-ingredient-field {
+      flex: 1;
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .custom-ingredient-field:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.1);
+    }
+
+    .mama-button {
+      padding: 1rem 2rem;
       border: none;
-      border-radius: var(--radius);
+      border-radius: 12px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      text-decoration: none;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: inherit;
     }
 
     .btn-primary {
-      background: var(--primary-color);
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
       color: white;
     }
 
     .btn-primary:hover {
-      background: var(--primary-dark);
       transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
     }
 
     .btn-secondary {
-      background: var(--secondary-color);
+      background: linear-gradient(135deg, var(--secondary-color), #F57C00);
       color: white;
     }
 
-    .filters {
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 152, 0, 0.3);
+    }
+
+    .filters-section {
+      background: var(--warm-pink);
+      padding: 2rem;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+    }
+
+    .filters-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
+      gap: 1.5rem;
     }
 
     .filter-group {
       display: flex;
       flex-direction: column;
+    }
+
+    .filter-label {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
       gap: 0.5rem;
     }
 
-    .filter-group label {
-      font-weight: 600;
-      color: var(--text-secondary);
+    .filter-control {
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+      background: var(--surface);
+      transition: border-color 0.3s ease;
     }
 
-    .filter-group select, .filter-group input {
-      padding: 0.75rem;
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      font-size: 1rem;
+    .filter-control:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
     }
 
     .search-section {
       text-align: center;
+      padding: 3rem 2rem;
     }
 
     .search-btn {
-      font-size: 1.2rem;
-      padding: 1rem 3rem;
-      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      font-size: 1.3rem;
+      padding: 1.5rem 4rem;
+      background: linear-gradient(135deg, var(--accent-color), #1976D2);
       border: none;
-      border-radius: var(--radius);
+      border-radius: 50px;
       color: white;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.3s ease;
       box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
     }
 
     .search-btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+      box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
     }
 
     .search-btn:disabled {
@@ -212,9 +429,31 @@
       transform: none;
     }
 
+    .search-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      transition: all 0.6s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .search-btn:active::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .results-container {
+      margin-top: 3rem;
+    }
+
     .recipe-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
       gap: 2rem;
     }
 
@@ -225,63 +464,102 @@
       box-shadow: var(--shadow);
       transition: all 0.3s ease;
       position: relative;
+      border: 2px solid transparent;
     }
 
     .recipe-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--primary-color);
     }
 
     .recipe-header {
-      padding: 1.5rem;
+      padding: 2rem;
       background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      position: relative;
+    }
+
+    .recipe-badges {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .recipe-badge {
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .match-badge {
+      background: var(--secondary-color);
       color: white;
     }
 
+    .time-badge {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
     .recipe-title {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      line-height: 1.3;
     }
 
     .recipe-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.9rem;
-      opacity: 0.9;
+      font-size: 0.95rem;
+      opacity: 0.95;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
 
     .recipe-content {
-      padding: 1.5rem;
+      padding: 2rem;
     }
 
-    .recipe-score {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: var(--secondary-color);
-      color: white;
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
+    .ingredients-section {
+      margin-bottom: 2rem;
+    }
+
+    .ingredients-title {
+      font-size: 1.1rem;
       font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .ingredients-list {
       list-style: none;
-      margin-bottom: 1rem;
+      background: var(--background);
+      border-radius: 12px;
+      padding: 1rem;
     }
 
-    .ingredients-list li {
+    .ingredient-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.5rem 0;
+      padding: 0.75rem 0;
       border-bottom: 1px solid var(--border);
     }
 
-    .ingredients-list li:last-child {
+    .ingredient-item:last-child {
       border-bottom: none;
     }
 
@@ -294,36 +572,21 @@
       color: var(--text-secondary);
     }
 
-    .affiliate-links {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .affiliate-links a {
-      padding: 0.25rem 0.5rem;
-      background: var(--border);
-      color: var(--text-secondary);
-      text-decoration: none;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      transition: all 0.3s ease;
-    }
-
-    .affiliate-links a:hover {
-      background: var(--primary-color);
-      color: white;
-    }
-
-    .recipe-instructions {
+    .instructions-section {
       background: var(--background);
-      padding: 1rem;
-      margin-top: 1rem;
-      border-radius: var(--radius);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
     }
 
-    .recipe-instructions h4 {
-      margin-bottom: 0.5rem;
+    .instructions-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
       color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .instructions-list {
@@ -333,9 +596,10 @@
 
     .instructions-list li {
       counter-increment: step-counter;
-      margin-bottom: 0.5rem;
-      padding-left: 2rem;
+      margin-bottom: 1rem;
+      padding-left: 3rem;
       position: relative;
+      line-height: 1.6;
     }
 
     .instructions-list li::before {
@@ -345,32 +609,38 @@
       top: 0;
       background: var(--primary-color);
       color: white;
-      width: 1.5rem;
-      height: 1.5rem;
+      width: 2rem;
+      height: 2rem;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       font-weight: 600;
     }
 
-    .nutrition-info {
+    .nutrition-section {
+      background: var(--soft-green);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .nutrition-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
       gap: 1rem;
-      margin-top: 1rem;
-      padding: 1rem;
-      background: var(--background);
-      border-radius: var(--radius);
     }
 
     .nutrition-item {
       text-align: center;
+      background: var(--surface);
+      padding: 1rem;
+      border-radius: 8px;
     }
 
     .nutrition-value {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 700;
       color: var(--primary-color);
     }
@@ -378,22 +648,82 @@
     .nutrition-label {
       font-size: 0.8rem;
       color: var(--text-secondary);
-      margin-top: 0.25rem;
+      margin-top: 0.3rem;
     }
 
-    .loading {
+    .recipe-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .recipe-tag {
+      background: var(--warm-pink);
+      color: var(--text-primary);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .mama-tips {
+      background: linear-gradient(135deg, #FFF9C4, #FFF3E0);
+      padding: 2rem;
+      border-radius: var(--radius);
+      margin: 3rem 0;
+      border-left: 6px solid var(--secondary-color);
+    }
+
+    .tips-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .tips-icon {
+      font-size: 2rem;
+      margin-right: 1rem;
+      color: var(--secondary-color);
+    }
+
+    .tips-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .tips-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .tips-list li {
+      padding: 0.75rem 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .tips-list li::before {
+      content: '💡';
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .loading-state {
       text-align: center;
-      padding: 3rem;
+      padding: 4rem 2rem;
     }
 
     .loading-spinner {
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       border: 4px solid var(--border);
       border-top: 4px solid var(--primary-color);
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin: 0 auto 1rem;
+      margin: 0 auto 2rem;
     }
 
     @keyframes spin {
@@ -403,33 +733,31 @@
 
     .no-results {
       text-align: center;
-      padding: 3rem;
+      padding: 4rem 2rem;
       color: var(--text-secondary);
     }
 
-    .no-results h3 {
+    .no-results-icon {
+      font-size: 4rem;
       margin-bottom: 1rem;
+      opacity: 0.5;
     }
 
-    footer {
+    .footer {
       background: var(--text-primary);
       color: white;
       text-align: center;
-      padding: 2rem 0;
-      margin-top: 3rem;
+      padding: 3rem 0;
+      margin-top: 4rem;
     }
 
-    footer a {
-      color: white;
-      text-decoration: none;
-      margin: 0 1rem;
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
     }
 
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    .stats {
+    .footer-links {
       display: flex;
       justify-content: center;
       gap: 2rem;
@@ -437,331 +765,481 @@
       flex-wrap: wrap;
     }
 
-    .stat-item {
-      text-align: center;
-      padding: 1rem;
-      background: var(--surface);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      min-width: 120px;
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
     }
 
-    .stat-value {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--primary-color);
+    .footer-links a:hover {
+      background-color: rgba(255,255,255,0.1);
     }
 
-    .stat-label {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      margin-top: 0.25rem;
+    .difficulty-easy {
+      background: var(--soft-green);
+      color: var(--primary-dark);
     }
 
+    .difficulty-medium {
+      background: var(--light-orange);
+      color: #F57C00;
+    }
+
+    .difficulty-hard {
+      background: var(--warm-pink);
+      color: #C62828;
+    }
+
+    /* Responsive Design */
     @media (max-width: 768px) {
-      .container {
-        padding: 0 15px;
+      .main-container {
+        padding: 0 1rem;
       }
       
-      .header-content h1 {
-        font-size: 2rem;
+      .app-title {
+        font-size: 1.8rem;
+      }
+      
+      .mama-benefits {
+        gap: 1rem;
+      }
+      
+      .benefit-item {
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
       }
       
       .ingredients-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.75rem;
       }
       
       .recipe-grid {
         grid-template-columns: 1fr;
       }
       
-      .filters {
+      .filters-grid {
         grid-template-columns: 1fr;
       }
       
-      .stats {
-        gap: 1rem;
+      .mama-section {
+        padding: 1.5rem;
+      }
+      
+      .search-btn {
+        padding: 1.2rem 2.5rem;
+        font-size: 1.1rem;
       }
     }
 
-    .difficulty-badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .difficulty-easy {
-      background: #E8F5E8;
-      color: #2E7D32;
-    }
-
-    .difficulty-medium {
-      background: #FFF3E0;
-      color: #F57C00;
-    }
-
-    .difficulty-hard {
-      background: #FFEBEE;
-      color: #C62828;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .tag {
-      background: var(--border);
-      color: var(--text-secondary);
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-    }
-
-    .favorite-btn {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      background: rgba(255,255,255,0.9);
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .favorite-btn:hover {
-      background: white;
-      transform: scale(1.1);
-    }
-
-    .favorite-btn.favorited {
-      color: #FF4444;
+    /* PDF Export Optimization */
+    @media print {
+      * {
+        box-shadow: none !important;
+      }
+      
+      .mama-header::before,
+      .mama-header::after {
+        display: none;
+      }
+      
+      body {
+        background: white;
+      }
+      
+      .mama-section,
+      .stat-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="container">
+  <header class="mama-header">
+    <div class="main-container">
       <div class="header-content">
-        <h1>🍳 PantryChef Pro</h1>
-        <p>AI が手持ち食材から最適なレシピを提案します</p>
+        <span class="app-logo">👩‍🍳✨</span>
+        <h1 class="app-title">PantryChef Pro</h1>
+        <p class="app-subtitle">忙しいママの味方！冷蔵庫の食材から時短レシピを提案</p>
+        <div class="mama-benefits">
+          <div class="benefit-item">
+            <i class="fas fa-clock"></i> 15分以内の時短レシピ
+          </div>
+          <div class="benefit-item">
+            <i class="fas fa-leaf"></i> 食材ロス削減で節約
+          </div>
+          <div class="benefit-item">
+            <i class="fas fa-heart"></i> 栄養バランス重視
+          </div>
+          <div class="benefit-item">
+            <i class="fas fa-mobile-alt"></i> スマホで簡単操作
+          </div>
+        </div>
       </div>
     </div>
   </header>
 
   <main>
-    <div class="container">
-      <div class="stats" id="stats">
-        <div class="stat-item">
+    <div class="main-container">
+      <!-- Quick Stats Section -->
+      <div class="quick-stats" id="stats">
+        <div class="stat-card">
+          <div class="stat-icon">🥬</div>
           <div class="stat-value" id="selected-count">0</div>
           <div class="stat-label">選択した食材</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-card">
+          <div class="stat-icon">📱</div>
           <div class="stat-value" id="recipe-count">0</div>
           <div class="stat-label">見つかったレシピ</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-card">
+          <div class="stat-icon">⭐</div>
           <div class="stat-value" id="match-rate">0%</div>
           <div class="stat-label">平均マッチ率</div>
         </div>
+        <div class="stat-card">
+          <div class="stat-icon">⏱️</div>
+          <div class="stat-value" id="avg-time">0分</div>
+          <div class="stat-label">平均調理時間</div>
+        </div>
       </div>
 
-      <section class="section">
-        <h2 class="section-title">🥬 食材を選択</h2>
-        <div class="ingredients-grid" id="ingredients"></div>
+      <!-- Ingredients Selection Section -->
+      <section class="mama-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-carrot"></i>
+          </div>
+          <div>
+            <h2 class="section-title">冷蔵庫の食材をチェック</h2>
+            <p class="section-subtitle">今ある食材を選んで、無駄なく美味しく！</p>
+          </div>
+        </div>
         
-        <div class="custom-ingredient">
-          <input type="text" id="custom-ingredient" placeholder="その他の食材を追加">
-          <button class="btn btn-secondary" id="add-ingredient">追加</button>
+        <div class="ingredients-container">
+          <div class="ingredients-grid" id="ingredients"></div>
+        </div>
+        
+        <div class="custom-ingredient-section">
+          <div class="custom-ingredient-header">
+            <i class="fas fa-plus-circle custom-ingredient-icon"></i>
+            <h3>その他の食材を追加</h3>
+          </div>
+          <div class="custom-ingredient-input">
+            <input type="text" id="custom-ingredient" class="custom-ingredient-field" placeholder="例：きゅうり、しいたけ、豆腐...">
+            <button class="mama-button btn-secondary" id="add-ingredient">
+              <i class="fas fa-plus"></i> 追加
+            </button>
+          </div>
         </div>
       </section>
 
-      <section class="section">
-        <h2 class="section-title">🔍 検索条件</h2>
-        <div class="filters">
-          <div class="filter-group">
-            <label>調理時間</label>
-            <select id="time-filter">
-              <option value="">指定なし</option>
-              <option value="15">15分以内</option>
-              <option value="30">30分以内</option>
-              <option value="60">60分以内</option>
-            </select>
+      <!-- Search Filters Section -->
+      <section class="mama-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-filter"></i>
           </div>
-          <div class="filter-group">
-            <label>難易度</label>
-            <select id="difficulty-filter">
-              <option value="">指定なし</option>
-              <option value="easy">簡単</option>
-              <option value="medium">普通</option>
-              <option value="hard">難しい</option>
-            </select>
+          <div>
+            <h2 class="section-title">お好みの条件を設定</h2>
+            <p class="section-subtitle">忙しい日でも安心！時短レシピを優先検索</p>
           </div>
-          <div class="filter-group">
-            <label>カテゴリ</label>
-            <select id="category-filter">
-              <option value="">指定なし</option>
-              <option value="main">メイン料理</option>
-              <option value="side">副菜</option>
-              <option value="soup">スープ</option>
-              <option value="dessert">デザート</option>
-            </select>
-          </div>
-          <div class="filter-group">
-            <label>カロリー上限</label>
-            <input type="number" id="calorie-filter" placeholder="例: 500" min="0" max="2000">
+        </div>
+        
+        <div class="filters-section">
+          <div class="filters-grid">
+            <div class="filter-group">
+              <label class="filter-label">
+                <i class="fas fa-clock"></i> 調理時間（重要！）
+              </label>
+              <select id="time-filter" class="filter-control">
+                <option value="">指定なし</option>
+                <option value="15" selected>15分以内（おすすめ）</option>
+                <option value="30">30分以内</option>
+                <option value="60">60分以内</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label">
+                <i class="fas fa-star"></i> 難易度
+              </label>
+              <select id="difficulty-filter" class="filter-control">
+                <option value="">指定なし</option>
+                <option value="easy" selected>簡単（おすすめ）</option>
+                <option value="medium">普通</option>
+                <option value="hard">本格的</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label">
+                <i class="fas fa-utensils"></i> 料理カテゴリ
+              </label>
+              <select id="category-filter" class="filter-control">
+                <option value="">指定なし</option>
+                <option value="main">メイン料理</option>
+                <option value="side">副菜・おかず</option>
+                <option value="soup">スープ・汁物</option>
+                <option value="dessert">デザート</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label">
+                <i class="fas fa-heart"></i> カロリー上限
+              </label>
+              <input type="number" id="calorie-filter" class="filter-control" placeholder="例: 400" min="0" max="1000" step="50">
+            </div>
           </div>
         </div>
         
         <div class="search-section">
-          <button class="search-btn" id="search">🔍 レシピを検索する</button>
+          <button class="search-btn" id="search">
+            <i class="fas fa-magic"></i> AIにレシピを提案してもらう
+          </button>
         </div>
       </section>
 
+      <!-- Mama Tips Section -->
+      <div class="mama-tips">
+        <div class="tips-header">
+          <div class="tips-icon">💝</div>
+          <h3 class="tips-title">忙しいママのための時短テクニック</h3>
+        </div>
+        <ul class="tips-list">
+          <li>週末に野菜をカットして冷凍保存すると平日が楽になります</li>
+          <li>一度に多めに作って翌日のお弁当のおかずにも活用しましょう</li>
+          <li>調味料は計量スプーンを使わず、小さじ1＝ペットボトルキャップ1杯で代用OK</li>
+          <li>子どもが好きな味付けのレシピは★マークでお気に入り登録を！</li>
+        </ul>
+      </div>
+
+      <!-- Results Section -->
       <section id="results-section" style="display: none;">
-        <div class="section">
-          <h2 class="section-title">📋 検索結果</h2>
+        <div class="mama-section">
+          <div class="section-header">
+            <div class="section-icon">
+              <i class="fas fa-list-ul"></i>
+            </div>
+            <div>
+              <h2 class="section-title">おすすめレシピ</h2>
+              <p class="section-subtitle">美香さんにぴったりのレシピが見つかりました！</p>
+            </div>
+          </div>
           <div id="results"></div>
         </div>
       </section>
     </div>
   </main>
 
-  <footer>
-    <div class="container">
-      <a href="privacy.html">プライバシーポリシー</a> |
-      <a href="disclaimer.html">免責事項</a> |
-      <a href="contact.html">問い合わせ</a>
-      <p style="margin-top: 1rem; opacity: 0.7;">© 2025 PantryChef Pro. All rights reserved.</p>
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#privacy"><i class="fas fa-shield-alt"></i> プライバシーポリシー</a>
+        <a href="#terms"><i class="fas fa-file-contract"></i> 利用規約</a>
+        <a href="#contact"><i class="fas fa-envelope"></i> お問い合わせ</a>
+        <a href="#feedback"><i class="fas fa-comment-dots"></i> ご意見・ご要望</a>
+      </div>
+      <p style="opacity: 0.8; margin-top: 1rem;">
+        <i class="fas fa-heart" style="color: #FF6B9D;"></i> 
+        忙しいママを応援する PantryChef Pro © 2024
+      </p>
     </div>
   </footer>
 
 <script>
-// Enhanced Recipe Data with more comprehensive information
-const enhancedRecipesData = {
+// Enhanced Recipe Data with more family-friendly recipes
+const mamaRecipesData = {
   ingredients: [
-    '卵', '牛乳', '鶏肉', '豚肉', '牛肉', '玉ねぎ', 'トマト', 'じゃがいも', 'にんじん',
-    'キャベツ', 'ブロッコリー', 'ほうれん草', 'もやし', 'きのこ類', 'にんにく', '生姜',
-    'ご飯', 'パン', 'パスタ', 'うどん', 'そば', 'チーズ', 'バター', '油', '醤油',
-    'みそ', '塩', 'こしょう', '砂糖', '酢', 'みりん', '酒', '小麦粉', '片栗粉'
+    { name: '卵', emoji: '🥚' },
+    { name: '牛乳', emoji: '🥛' },
+    { name: '鶏肉', emoji: '🐔' },
+    { name: '豚肉', emoji: '🐷' },
+    { name: '牛肉', emoji: '🐄' },
+    { name: '玉ねぎ', emoji: '🧅' },
+    { name: 'トマト', emoji: '🍅' },
+    { name: 'じゃがいも', emoji: '🥔' },
+    { name: 'にんじん', emoji: '🥕' },
+    { name: 'キャベツ', emoji: '🥬' },
+    { name: 'ブロッコリー', emoji: '🥦' },
+    { name: 'ほうれん草', emoji: '🥬' },
+    { name: 'もやし', emoji: '🌱' },
+    { name: 'きのこ類', emoji: '🍄' },
+    { name: 'にんにく', emoji: '🧄' },
+    { name: '生姜', emoji: '🫚' },
+    { name: 'ご飯', emoji: '🍚' },
+    { name: 'パン', emoji: '🍞' },
+    { name: 'パスタ', emoji: '🍝' },
+    { name: 'うどん', emoji: '🍜' },
+    { name: 'そば', emoji: '🍜' },
+    { name: 'チーズ', emoji: '🧀' },
+    { name: 'バター', emoji: '🧈' },
+    { name: '油', emoji: '🫒' },
+    { name: '醤油', emoji: '🥢' },
+    { name: 'みそ', emoji: '🍜' },
+    { name: '塩', emoji: '🧂' },
+    { name: 'こしょう', emoji: '🌶️' },
+    { name: '砂糖', emoji: '🍯' },
+    { name: '酢', emoji: '🍶' },
+    { name: 'みりん', emoji: '🍶' },
+    { name: '酒', emoji: '🍶' },
+    { name: '小麦粉', emoji: '🌾' },
+    { name: '片栗粉', emoji: '🌾' }
   ],
   recipes: [
     {
       id: 1,
-      name: 'チキントマト煮込み',
-      ingredients: ['鶏肉', 'トマト', '玉ねぎ', 'にんにく', '油', '塩', 'こしょう'],
-      cookingTime: 30,
-      difficulty: 'medium',
+      name: '忙しいママの簡単オムライス',
+      ingredients: ['卵', 'ご飯', '玉ねぎ', 'ケチャップ', 'バター', '塩', 'こしょう'],
+      cookingTime: 12,
+      difficulty: 'easy',
       category: 'main',
       calories: 380,
       servings: 2,
       instructions: [
-        '鶏肉を一口大に切り、塩こしょうで下味をつける',
-        'フライパンに油を熱し、鶏肉を焼き色がつくまで炒める',
-        'みじん切りにした玉ねぎとにんにくを加えて炒める',
-        'トマトを加えて煮込み、塩こしょうで味を調える'
+        'フライパンにバターを溶かし、みじん切りした玉ねぎを炒める',
+        'ご飯を加えてケチャップで炒めてチキンライスを作る',
+        '卵を溶いて別のフライパンで薄焼きにする',
+        'チキンライスを卵で包んで完成！'
       ],
-      nutrition: { protein: 28, carbs: 12, fat: 15, fiber: 3 },
-      tags: ['ヘルシー', '高たんぱく', '洋風']
+      nutrition: { protein: 15, carbs: 45, fat: 18, fiber: 2 },
+      tags: ['子ども大好き', '時短', '定番', 'お弁当にも'],
+      mamaNote: '冷凍ご飯を使えばさらに時短！子どもも喜ぶ定番メニューです。'
     },
     {
       id: 2,
-      name: 'ふわふわオムレツ',
-      ingredients: ['卵', '牛乳', 'バター', '塩', 'こしょう'],
-      cookingTime: 15,
+      name: '栄養満点！野菜たっぷりハンバーグ',
+      ingredients: ['豚肉', '玉ねぎ', 'にんじん', 'キャベツ', '卵', 'パン', '牛乳', '塩', 'こしょう'],
+      cookingTime: 18,
       difficulty: 'easy',
       category: 'main',
-      calories: 280,
-      servings: 1,
+      calories: 320,
+      servings: 3,
       instructions: [
-        '卵を割りほぐし、牛乳、塩、こしょうを加えて混ぜる',
-        'フライパンにバターを溶かし、卵液を流し入れる',
-        '半熟状態になったら端から折りたたむ',
-        '形を整えてお皿に盛る'
+        '野菜をみじん切りにしてレンジで2分加熱',
+        'パンを牛乳に浸してふやかす',
+        '豚肉、野菜、パン、卵を混ぜて成形',
+        'フライパンで両面焼いて蒸し焼きにする'
       ],
-      nutrition: { protein: 18, carbs: 3, fat: 22, fiber: 0 },
-      tags: ['簡単', '朝食', '洋風']
+      nutrition: { protein: 22, carbs: 15, fat: 16, fiber: 3 },
+      tags: ['野菜たっぷり', '栄養満点', '冷凍OK', '子ども向け'],
+      mamaNote: '野菜嫌いの子どもでも食べやすい！まとめて作って冷凍保存もできます。'
     },
     {
       id: 3,
-      name: '野菜たっぷりトマトスープ',
-      ingredients: ['トマト', '玉ねぎ', 'にんじん', 'キャベツ', 'にんにく', '油', '塩', 'こしょう'],
-      cookingTime: 25,
+      name: '包丁いらず！もやし豚巻き',
+      ingredients: ['豚肉', 'もやし', '醤油', 'みりん', '酒', '砂糖', '油'],
+      cookingTime: 10,
       difficulty: 'easy',
-      category: 'soup',
-      calories: 120,
-      servings: 3,
+      category: 'main',
+      calories: 280,
+      servings: 2,
       instructions: [
-        '野菜をすべて一口大に切る',
-        '鍋に油を熱し、にんにくと玉ねぎを炒める',
-        'その他の野菜を加えて炒める',
-        'トマトと水を加えて煮込み、塩こしょうで味を調える'
+        'もやしを豚肉で巻く（包丁不要！）',
+        'フライパンに油を熱して巻き終わりを下にして焼く',
+        '全体に焼き色がついたら調味料を加える',
+        '汁気がなくなるまで絡めて完成'
       ],
-      nutrition: { protein: 3, carbs: 18, fat: 4, fiber: 5 },
-      tags: ['ヘルシー', '野菜たっぷり', '低カロリー']
+      nutrition: { protein: 25, carbs: 8, fat: 15, fiber: 2 },
+      tags: ['包丁不要', '超時短', 'ヘルシー', '節約'],
+      mamaNote: '洗い物が少なくて済む忙しい日の救世主レシピ！'
     },
     {
       id: 4,
-      name: '豚の生姜焼き',
-      ingredients: ['豚肉', '玉ねぎ', '生姜', '醤油', 'みりん', '酒', '砂糖', '油'],
-      cookingTime: 20,
-      difficulty: 'medium',
+      name: 'レンジで簡単！蒸し鶏サラダ',
+      ingredients: ['鶏肉', 'キャベツ', 'にんじん', '醤油', '酢', '砂糖', 'ごま油', '塩'],
+      cookingTime: 8,
+      difficulty: 'easy',
+      category: 'main',
+      calories: 220,
+      servings: 2,
+      instructions: [
+        '鶏肉に塩をして耐熱皿にのせラップをしてレンジで5分',
+        'キャベツとにんじんを千切りにして水にさらす',
+        '鶏肉を手で裂いて野菜と混ぜる',
+        'ドレッシングの材料を混ぜてかける'
+      ],
+      nutrition: { protein: 28, carbs: 6, fat: 8, fiber: 3 },
+      tags: ['レンジ調理', 'ヘルシー', '火を使わない', 'ダイエット'],
+      mamaNote: '火を使わないので夏場にも安心！ヘルシーで栄養バランス◎'
+    },
+    {
+      id: 5,
+      name: 'ワンポット！トマトスープパスタ',
+      ingredients: ['パスタ', 'トマト', '玉ねぎ', 'にんにく', 'ベーコン', 'チーズ', '牛乳', '塩', 'こしょう'],
+      cookingTime: 15,
+      difficulty: 'easy',
       category: 'main',
       calories: 420,
       servings: 2,
       instructions: [
-        '豚肉を食べやすい大きさに切る',
-        '調味料を混ぜ合わせてタレを作る',
-        'フライパンに油を熱し、豚肉を炒める',
-        '玉ねぎと生姜を加えて炒め、タレを絡める'
+        '深いフライパンに材料をすべて入れる',
+        '水を加えて強火で沸騰させる',
+        'パスタが柔らかくなるまで煮込む',
+        'チーズを加えて混ぜ合わせる'
       ],
-      nutrition: { protein: 32, carbs: 8, fat: 18, fiber: 1 },
-      tags: ['和風', '定番', 'ご飯に合う']
-    },
-    {
-      id: 5,
-      name: 'クリーミーパスタ',
-      ingredients: ['パスタ', '牛乳', 'チーズ', 'バター', 'にんにく', '塩', 'こしょう'],
-      cookingTime: 25,
-      difficulty: 'medium',
-      category: 'main',
-      calories: 520,
-      servings: 2,
-      instructions: [
-        'パスタを茹でる',
-        'フライパンにバターを溶かし、にんにくを炒める',
-        '牛乳を加えて温め、チーズを溶かす',
-        '茹でたパスタを加えて絡める'
-      ],
-      nutrition: { protein: 20, carbs: 58, fat: 20, fiber: 3 },
-      tags: ['洋風', 'クリーミー', 'チーズ']
+      nutrition: { protein: 18, carbs: 52, fat: 16, fiber: 4 },
+      tags: ['ワンポット', '洗い物少', '子ども好み', '簡単'],
+      mamaNote: 'お鍋ひとつで完成！洗い物が少なくて忙しい日にぴったり。'
     },
     {
       id: 6,
-      name: '野菜炒め',
-      ingredients: ['キャベツ', 'にんじん', 'もやし', 'ピーマン', '油', '醤油', '塩', 'こしょう'],
-      cookingTime: 15,
+      name: '5分で完成！卵とじうどん',
+      ingredients: ['うどん', '卵', '玉ねぎ', '醤油', 'みりん', '砂糖', 'だしの素'],
+      cookingTime: 5,
+      difficulty: 'easy',
+      category: 'main',
+      calories: 320,
+      servings: 1,
+      instructions: [
+        '冷凍うどんをレンジで温める',
+        'フライパンに調味料とだし、玉ねぎを入れて煮る',
+        'うどんを加えて溶き卵を回し入れる',
+        '卵が半熟になったら完成'
+      ],
+      nutrition: { protein: 15, carbs: 48, fat: 8, fiber: 2 },
+      tags: ['超時短', '朝食にも', '夜食にも', '優しい味'],
+      mamaNote: '体調悪い日や忙しい朝にも◎優しい味で家族みんなに好評です。'
+    },
+    {
+      id: 7,
+      name: 'カット野菜で時短！野菜炒め',
+      ingredients: ['カット野菜', '豚肉', '醤油', 'みりん', '油', '塩', 'こしょう'],
+      cookingTime: 7,
       difficulty: 'easy',
       category: 'side',
-      calories: 150,
+      calories: 180,
       servings: 2,
       instructions: [
-        '野菜をすべて食べやすい大きさに切る',
-        'フライパンに油を熱し、硬い野菜から順に炒める',
-        '全体に火が通ったら調味料で味付けする'
+        'フライパンに油を熱して豚肉を炒める',
+        'カット野菜を加えて強火で炒める',
+        '調味料を加えて全体に絡める',
+        '塩こしょうで味を調える'
       ],
-      nutrition: { protein: 4, carbs: 12, fat: 8, fiber: 4 },
-      tags: ['ヘルシー', '野菜', 'あっさり']
+      nutrition: { protein: 12, carbs: 8, fat: 10, fiber: 4 },
+      tags: ['カット野菜', 'コンビニ食材', '超時短', '野菜不足解消'],
+      mamaNote: 'コンビニのカット野菜を活用！切る手間なしで野菜不足解消。'
+    },
+    {
+      id: 8,
+      name: 'レンジで簡単！肉じゃが',
+      ingredients: ['じゃがいも', '玉ねぎ', 'にんじん', '豚肉', '醤油', 'みりん', '砂糖', 'だしの素'],
+      cookingTime: 12,
+      difficulty: 'easy',
+      category: 'main',
+      calories: 280,
+      servings: 3,
+      instructions: [
+        'じゃがいも、にんじんを一口大に切ってレンジで3分',
+        '耐熱ボウルに全ての材料を入れる',
+        'ラップをしてレンジで8分加熱',
+        '一度混ぜてさらに2分加熱'
+      ],
+      nutrition: { protein: 18, carbs: 32, fat: 8, fiber: 3 },
+      tags: ['レンジ調理', '定番おかず', '火を使わない', '作り置きOK'],
+      mamaNote: 'コンロを使わないので他の料理と同時進行できて便利！'
     }
   ]
 };
@@ -787,48 +1265,52 @@ const calorieFilter = document.getElementById('calorie-filter');
 const selectedCountEl = document.getElementById('selected-count');
 const recipeCountEl = document.getElementById('recipe-count');
 const matchRateEl = document.getElementById('match-rate');
+const avgTimeEl = document.getElementById('avg-time');
 
 // Initialize the app
 function init() {
   renderIngredients();
   loadFavorites();
   updateStats();
+  
+  // Set default filters for busy moms
+  timeFilter.value = '15';
+  difficultyFilter.value = 'easy';
 }
 
-// Render ingredient checkboxes
+// Render ingredient cards with emojis
 function renderIngredients() {
   ingredientsDiv.innerHTML = '';
-  enhancedRecipesData.ingredients.forEach(ingredient => {
-    const item = document.createElement('div');
-    item.className = 'ingredient-item';
+  mamaRecipesData.ingredients.forEach(ingredient => {
+    const card = document.createElement('div');
+    card.className = 'ingredient-card';
     
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.value = ingredient;
-    checkbox.id = `ingredient-${ingredient}`;
+    checkbox.value = ingredient.name;
+    checkbox.id = `ingredient-${ingredient.name}`;
     
-    const label = document.createElement('label');
-    label.htmlFor = `ingredient-${ingredient}`;
-    label.textContent = ingredient;
-    
-    item.appendChild(checkbox);
-    item.appendChild(label);
+    card.innerHTML = `
+      <span class="ingredient-emoji">${ingredient.emoji}</span>
+      <span class="ingredient-name">${ingredient.name}</span>
+    `;
+    card.appendChild(checkbox);
     
     // Event listeners
-    item.addEventListener('click', (e) => {
+    card.addEventListener('click', (e) => {
       if (e.target.type !== 'checkbox') {
         checkbox.checked = !checkbox.checked;
       }
-      toggleIngredient(ingredient, checkbox.checked);
-      item.classList.toggle('selected', checkbox.checked);
+      toggleIngredient(ingredient.name, checkbox.checked);
+      card.classList.toggle('selected', checkbox.checked);
     });
     
     checkbox.addEventListener('change', (e) => {
-      toggleIngredient(ingredient, e.target.checked);
-      item.classList.toggle('selected', e.target.checked);
+      toggleIngredient(ingredient.name, e.target.checked);
+      card.classList.toggle('selected', e.target.checked);
     });
     
-    ingredientsDiv.appendChild(item);
+    ingredientsDiv.appendChild(card);
   });
 }
 
@@ -848,29 +1330,31 @@ function addCustomIngredient() {
   if (!ingredient) return;
   
   if (selectedIngredients.has(ingredient)) {
-    alert('この食材は既に選択されています');
+    showNotification('この食材は既に選択されています', 'warning');
     return;
   }
   
   selectedIngredients.add(ingredient);
   
   // Add to UI
-  const item = document.createElement('div');
-  item.className = 'ingredient-item selected';
-  item.innerHTML = `
+  const card = document.createElement('div');
+  card.className = 'ingredient-card selected';
+  card.innerHTML = `
+    <span class="ingredient-emoji">🥘</span>
+    <span class="ingredient-name">${ingredient}</span>
     <input type="checkbox" checked>
-    <label>${ingredient}</label>
   `;
   
-  item.addEventListener('click', () => {
+  card.addEventListener('click', () => {
     selectedIngredients.delete(ingredient);
-    item.remove();
+    card.remove();
     updateStats();
   });
   
-  ingredientsDiv.appendChild(item);
+  ingredientsDiv.appendChild(card);
   customInput.value = '';
   updateStats();
+  showNotification('食材を追加しました！', 'success');
 }
 
 // Calculate recipe match score
@@ -884,7 +1368,7 @@ function calculateMatchScore(recipe) {
 // Filter and search recipes
 function searchRecipes() {
   if (selectedIngredients.size === 0) {
-    alert('食材を選択してください');
+    showNotification('食材を選択してください', 'warning');
     return;
   }
   
@@ -897,7 +1381,7 @@ function searchRecipes() {
   showLoading();
   
   setTimeout(() => {
-    currentRecipes = enhancedRecipesData.recipes
+    currentRecipes = mamaRecipesData.recipes
       .filter(recipe => {
         return recipe.cookingTime <= maxTime &&
                (!difficulty || recipe.difficulty === difficulty) &&
@@ -908,25 +1392,31 @@ function searchRecipes() {
         recipe,
         score: calculateMatchScore(recipe)
       }))
-      .filter(item => item.score > 0) // Only show recipes with at least one matching ingredient
+      .filter(item => item.score > 0)
       .sort((a, b) => b.score - a.score)
-      .slice(0, 10); // Show top 10 results
+      .slice(0, 12);
     
     renderResults();
     updateStats();
-  }, 1000); // Simulate loading time
+    showNotification(`${currentRecipes.length}件のレシピが見つかりました！`, 'success');
+  }, 1200);
 }
 
-// Show loading state
+// Show loading state with mama-friendly messages
 function showLoading() {
   resultsDiv.innerHTML = `
-    <div class="loading">
+    <div class="loading-state">
       <div class="loading-spinner"></div>
-      <h3>レシピを検索中...</h3>
-      <p>最適なレシピを見つけています</p>
+      <h3>美香さんにぴったりのレシピを探しています...</h3>
+      <p style="color: var(--text-secondary); margin-top: 1rem;">
+        🔍 時短レシピを優先的に検索中<br>
+        💝 栄養バランスも考慮しています<br>
+        👨‍👩‍👧‍👦 家族みんなが喜ぶメニューを厳選中
+      </p>
     </div>
   `;
   resultsSection.style.display = 'block';
+  resultsSection.scrollIntoView({ behavior: 'smooth' });
 }
 
 // Render search results
@@ -934,8 +1424,12 @@ function renderResults() {
   if (currentRecipes.length === 0) {
     resultsDiv.innerHTML = `
       <div class="no-results">
-        <h3>😔 レシピが見つかりませんでした</h3>
-        <p>検索条件を変更して再度お試しください</p>
+        <div class="no-results-icon">😔</div>
+        <h3>条件に合うレシピが見つかりませんでした</h3>
+        <p>検索条件を緩めて再度お試しください</p>
+        <p style="margin-top: 1rem; color: var(--text-secondary);">
+          💡 ヒント：調理時間を長めに設定したり、食材を追加してみてください
+        </p>
       </div>
     `;
     return;
@@ -946,8 +1440,6 @@ function renderResults() {
       ${currentRecipes.map(item => renderRecipeCard(item.recipe, item.score)).join('')}
     </div>
   `;
-  
-  resultsSection.style.display = 'block';
 }
 
 // Render individual recipe card
@@ -957,69 +1449,87 @@ function renderRecipeCard(recipe, score) {
   
   return `
     <div class="recipe-card">
-      <button class="favorite-btn ${isFavorited ? 'favorited' : ''}" onclick="toggleFavorite(${recipe.id})">
-        ${isFavorited ? '❤️' : '🤍'}
-      </button>
-      <div class="recipe-score">${matchPercentage}% マッチ</div>
-      
       <div class="recipe-header">
+        <div class="recipe-badges">
+          <div class="recipe-badge match-badge">${matchPercentage}% マッチ</div>
+          <div class="recipe-badge time-badge">⏱️ ${recipe.cookingTime}分</div>
+        </div>
+        
         <div class="recipe-title">${recipe.name}</div>
         <div class="recipe-meta">
-          <span>⏱️ ${recipe.cookingTime}分</span>
-          <span>👥 ${recipe.servings}人分</span>
+          <span><i class="fas fa-users"></i> ${recipe.servings}人分</span>
           <span class="difficulty-badge difficulty-${recipe.difficulty}">
             ${getDifficultyText(recipe.difficulty)}
           </span>
+          <span><i class="fas fa-fire"></i> ${recipe.calories}kcal</span>
         </div>
       </div>
       
       <div class="recipe-content">
-        <h4>📝 材料 (${recipe.ingredients.length}種類)</h4>
-        <ul class="ingredients-list">
-          ${recipe.ingredients.map(ingredient => `
-            <li>
-              <span class="${selectedIngredients.has(ingredient) ? 'ingredient-available' : 'ingredient-missing'}">
-                ${selectedIngredients.has(ingredient) ? '✅' : '❌'} ${ingredient}
-              </span>
-              <div class="affiliate-links">
-                ${generateAffiliateLinks(ingredient)}
-              </div>
-            </li>
-          `).join('')}
-        </ul>
+        <div class="ingredients-section">
+          <h4 class="ingredients-title">
+            <i class="fas fa-list"></i> 材料 (${recipe.ingredients.length}種類)
+          </h4>
+          <ul class="ingredients-list">
+            ${recipe.ingredients.map(ingredient => `
+              <li class="ingredient-item">
+                <span class="${selectedIngredients.has(ingredient) ? 'ingredient-available' : 'ingredient-missing'}">
+                  ${selectedIngredients.has(ingredient) ? '✅' : '❌'} ${ingredient}
+                </span>
+              </li>
+            `).join('')}
+          </ul>
+        </div>
         
-        <div class="nutrition-info">
-          <div class="nutrition-item">
-            <div class="nutrition-value">${recipe.calories}</div>
-            <div class="nutrition-label">カロリー</div>
-          </div>
-          <div class="nutrition-item">
-            <div class="nutrition-value">${recipe.nutrition.protein}g</div>
-            <div class="nutrition-label">たんぱく質</div>
-          </div>
-          <div class="nutrition-item">
-            <div class="nutrition-value">${recipe.nutrition.carbs}g</div>
-            <div class="nutrition-label">炭水化物</div>
-          </div>
-          <div class="nutrition-item">
-            <div class="nutrition-value">${recipe.nutrition.fat}g</div>
-            <div class="nutrition-label">脂質</div>
-          </div>
-          <div class="nutrition-item">
-            <div class="nutrition-value">${recipe.nutrition.fiber}g</div>
-            <div class="nutrition-label">食物繊維</div>
+        <div class="nutrition-section">
+          <div class="nutrition-grid">
+            <div class="nutrition-item">
+              <div class="nutrition-value">${recipe.calories}</div>
+              <div class="nutrition-label">カロリー</div>
+            </div>
+            <div class="nutrition-item">
+              <div class="nutrition-value">${recipe.nutrition.protein}g</div>
+              <div class="nutrition-label">たんぱく質</div>
+            </div>
+            <div class="nutrition-item">
+              <div class="nutrition-value">${recipe.nutrition.carbs}g</div>
+              <div class="nutrition-label">炭水化物</div>
+            </div>
+            <div class="nutrition-item">
+              <div class="nutrition-value">${recipe.nutrition.fat}g</div>
+              <div class="nutrition-label">脂質</div>
+            </div>
+            <div class="nutrition-item">
+              <div class="nutrition-value">${recipe.nutrition.fiber}g</div>
+              <div class="nutrition-label">食物繊維</div>
+            </div>
           </div>
         </div>
         
-        <div class="recipe-instructions">
-          <h4>👩‍🍳 作り方</h4>
+        <div class="instructions-section">
+          <h4 class="instructions-title">
+            <i class="fas fa-magic"></i> 作り方（超簡単！）
+          </h4>
           <ol class="instructions-list">
             ${recipe.instructions.map(step => `<li>${step}</li>`).join('')}
           </ol>
         </div>
         
-        <div class="tags">
-          ${recipe.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
+        ${recipe.mamaNote ? `
+          <div style="background: var(--light-orange); padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid var(--secondary-color);">
+            <strong style="color: var(--secondary-color);">👩‍🍳 美香さんへのアドバイス：</strong><br>
+            ${recipe.mamaNote}
+          </div>
+        ` : ''}
+        
+        <div class="recipe-tags">
+          ${recipe.tags.map(tag => `<span class="recipe-tag">#${tag}</span>`).join('')}
+        </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <button class="mama-button btn-primary" onclick="toggleFavorite(${recipe.id})">
+            <i class="fas fa-heart"></i> ${isFavorited ? 'お気に入り登録済み' : 'お気に入りに追加'}
+          </button>
         </div>
       </div>
     </div>
@@ -1031,60 +1541,74 @@ function getDifficultyText(difficulty) {
   const difficultyMap = {
     'easy': '簡単',
     'medium': '普通',
-    'hard': '難しい'
+    'hard': '本格的'
   };
   return difficultyMap[difficulty] || '普通';
-}
-
-// Generate affiliate links
-function generateAffiliateLinks(ingredient) {
-  const encoded = encodeURIComponent(ingredient);
-  const amazonUrl = `https://www.amazon.co.jp/s?k=${encoded}&tag=YOUR_AMAZON_ID`;
-  const rakutenUrl = `https://hb.afl.rakuten.co.jp/hgc/g00q0724.waxyc70f.g00q0724.waxyda0c/?pc=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F${encoded}%2F`;
-  
-  return `
-    <a href="${amazonUrl}" target="_blank" rel="noopener">Amazon</a>
-    <a href="${rakutenUrl}" target="_blank" rel="noopener">楽天</a>
-  `;
 }
 
 // Toggle favorite status
 function toggleFavorite(recipeId) {
   if (favorites.has(recipeId)) {
     favorites.delete(recipeId);
+    showNotification('お気に入りから削除しました', 'info');
   } else {
     favorites.add(recipeId);
+    showNotification('お気に入りに追加しました！', 'success');
   }
   saveFavorites();
+  renderResults(); // Re-render to update button state
+}
+
+// Show notification
+function showNotification(message, type = 'info') {
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    background: ${type === 'success' ? 'var(--primary-color)' : type === 'warning' ? 'var(--secondary-color)' : 'var(--accent-color)'};
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    z-index: 9999;
+    box-shadow: var(--shadow-hover);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  `;
+  notification.textContent = message;
+  document.body.appendChild(notification);
   
-  // Update UI
-  const btn = event.target;
-  btn.classList.toggle('favorited');
-  btn.textContent = favorites.has(recipeId) ? '❤️' : '🤍';
+  setTimeout(() => {
+    notification.style.transform = 'translateX(0)';
+  }, 100);
+  
+  setTimeout(() => {
+    notification.style.transform = 'translateX(100%)';
+    setTimeout(() => {
+      document.body.removeChild(notification);
+    }, 300);
+  }, 3000);
 }
 
 // Save favorites to localStorage
 function saveFavorites() {
   try {
-    // In a real app, this would save to localStorage
-    // localStorage.setItem('favorites', JSON.stringify([...favorites]));
-    console.log('Favorites saved:', [...favorites]);
+    localStorage.setItem('mama-favorites', JSON.stringify([...favorites]));
   } catch (e) {
-    console.log('Cannot save favorites in this environment');
+    console.log('Cannot save favorites:', e);
   }
 }
 
 // Load favorites from localStorage
 function loadFavorites() {
   try {
-    // In a real app, this would load from localStorage
-    // const saved = localStorage.getItem('favorites');
-    // if (saved) {
-    //   favorites = new Set(JSON.parse(saved));
-    // }
-    console.log('Favorites loaded');
+    const saved = localStorage.getItem('mama-favorites');
+    if (saved) {
+      favorites = new Set(JSON.parse(saved));
+    }
   } catch (e) {
-    console.log('Cannot load favorites in this environment');
+    console.log('Cannot load favorites:', e);
   }
 }
 
@@ -1096,8 +1620,12 @@ function updateStats() {
   if (currentRecipes.length > 0) {
     const averageMatch = currentRecipes.reduce((sum, item) => sum + item.score, 0) / currentRecipes.length;
     matchRateEl.textContent = Math.round(averageMatch * 100) + '%';
+    
+    const averageTime = currentRecipes.reduce((sum, item) => sum + item.recipe.cookingTime, 0) / currentRecipes.length;
+    avgTimeEl.textContent = Math.round(averageTime) + '分';
   } else {
     matchRateEl.textContent = '0%';
+    avgTimeEl.textContent = '0分';
   }
 }
 
@@ -1112,17 +1640,7 @@ customInput.addEventListener('keypress', (e) => {
   }
 });
 
-// PWA Service Worker registration
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js')
-    .then(registration => console.log('SW registered:', registration))
-    .catch(error => console.log('SW registration failed:', error));
-}
-
-// Initialize app when page loads
-document.addEventListener('DOMContentLoaded', init);
-
-// Keyboard shortcuts
+// Keyboard shortcuts for busy moms
 document.addEventListener('keydown', (e) => {
   if (e.ctrlKey || e.metaKey) {
     switch (e.key) {
@@ -1138,19 +1656,30 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Add some sample data for demonstration
+// Initialize app when page loads
+document.addEventListener('DOMContentLoaded', init);
+
+// Demo mode: Auto-select common ingredients for busy moms
 setTimeout(() => {
-  // Auto-select some ingredients for demo
-  const demoIngredients = ['卵', '牛乳', '鶏肉'];
+  const demoIngredients = ['卵', '玉ねぎ', '豚肉', 'じゃがいも'];
   demoIngredients.forEach(ingredient => {
     const checkbox = document.querySelector(`input[value="${ingredient}"]`);
     if (checkbox) {
       checkbox.checked = true;
       toggleIngredient(ingredient, true);
-      checkbox.closest('.ingredient-item').classList.add('selected');
+      checkbox.closest('.ingredient-card').classList.add('selected');
     }
   });
-}, 500);
+  
+  showNotification('デモ用に食材を選択済みです！「AIにレシピを提案してもらう」をクリック♪', 'info');
+}, 1000);
+
+// PWA Service Worker registration
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(registration => console.log('SW registered:', registration))
+    .catch(error => console.log('SW registration failed:', error));
+}
 </script>
 
 </body>
