@@ -1,0 +1,23 @@
+const recipesData = {
+  ingredients: ['卵', '牛乳', '鶏肉', '玉ねぎ', 'トマト'],
+  recipes: [
+    {
+      id: 1,
+      name: 'チキントマト煮',
+      ingredients: ['鶏肉', 'トマト', '玉ねぎ'],
+      cookingTime: 30
+    },
+    {
+      id: 2,
+      name: 'オムレツ',
+      ingredients: ['卵', '牛乳', '玉ねぎ'],
+      cookingTime: 15
+    },
+    {
+      id: 3,
+      name: 'トマトスープ',
+      ingredients: ['トマト', '玉ねぎ'],
+      cookingTime: 20
+    }
+  ]
+};
