@@ -1028,7 +1028,7 @@
             </div>
             <div>
               <h2 class="section-title">おすすめレシピ</h2>
-              <p class="section-subtitle">美香さんにぴったりのレシピが見つかりました！</p>
+              <p class="section-subtitle">あなたにぴったりのレシピが見つかりました！</p>
             </div>
           </div>
           <div id="results"></div>
@@ -1090,6 +1090,11 @@ const mamaRecipesData = {
     { name: '酒', emoji: '🍶' },
     { name: '小麦粉', emoji: '🌾' },
     { name: '片栗粉', emoji: '🌾' }
+    { name: 'ピーマン', emoji: '🫑' },
+    { name: 'ズッキーニ', emoji: '🥒' },
+    { name: 'ナス', emoji: '🍆' },
+    { name: '鮭', emoji: '🐟' },
+    { name: '豆腐', emoji: '🍢' }
   ],
   recipes: [
     {
@@ -1243,6 +1248,63 @@ const mamaRecipesData = {
       nutrition: { protein: 18, carbs: 32, fat: 8, fiber: 3 },
       tags: ['レンジ調理', '定番おかず', '火を使わない', '作り置きOK'],
       mamaNote: 'コンロを使わないので他の料理と同時進行できて便利！'
+    },
+    {
+      id: 9,
+      name: 'ピーマンと豚肉のみそ炒め',
+      ingredients: ['豚肉', 'ピーマン', 'にんじん', 'みそ', 'みりん', '砂糖', '油'],
+      cookingTime: 10,
+      difficulty: 'easy',
+      category: 'main',
+      calories: 310,
+      servings: 2,
+      instructions: [
+        'フライパンで豚肉とピーマンを炒める',
+        'にんじんを加えてさらに炒める',
+        '調味料を加えて全体を絡める',
+        '水分が飛んだら完成'
+      ],
+      nutrition: { protein: 20, carbs: 14, fat: 18, fiber: 3 },
+      tags: ['ご飯が進む', '時短', '野菜追加'],
+      mamaNote: '味噌だれでご飯が進む！冷蔵庫の残り野菜でアレンジ自在。'
+    },
+    {
+      id: 10,
+      name: '鮭のバター醤油ソテー',
+      ingredients: ['鮭', 'バター', '醤油', '塩', 'こしょう'],
+      cookingTime: 10,
+      difficulty: 'easy',
+      category: 'main',
+      calories: 260,
+      servings: 2,
+      instructions: [
+        'フライパンにバターを溶かして鮭を焼く',
+        '両面に焼き色がついたら醤油を回し入れる',
+        '塩こしょうで味を整えて完成',
+        'お好みでレモンを添える'
+      ],
+      nutrition: { protein: 22, carbs: 4, fat: 16, fiber: 0 },
+      tags: ['フライパン', '魚料理', '子ども喜ぶ'],
+      mamaNote: '冷凍鮭を使えば解凍して焼くだけ！忙しい夕食に◎'
+    },
+    {
+      id: 11,
+      name: '豆腐とナスのそぼろあん',
+      ingredients: ['豆腐', 'ナス', '鶏肉', '醤油', 'みりん', '砂糖', '片栗粉', '油'],
+      cookingTime: 15,
+      difficulty: 'easy',
+      category: 'side',
+      calories: 210,
+      servings: 2,
+      instructions: [
+        'ナスを炒めて取り出す',
+        '鶏肉を炒めて調味料を加える',
+        '水溶き片栗粉でとろみをつける',
+        'ナスと豆腐を加えてさっと絡める'
+      ],
+      nutrition: { protein: 14, carbs: 10, fat: 12, fiber: 2 },
+      tags: ['ヘルシー', 'ご飯に合う', '作り置き'],
+      mamaNote: 'とろみのあるあんが子どもに人気。豆腐でヘルシー！'
     }
   ]
 };
@@ -1410,7 +1472,7 @@ function showLoading() {
   resultsDiv.innerHTML = `
     <div class="loading-state">
       <div class="loading-spinner"></div>
-      <h3>美香さんにぴったりのレシピを探しています...</h3>
+      <h3>あなたにぴったりのレシピを探しています...</h3>
       <p style="color: var(--text-secondary); margin-top: 1rem;">
         🔍 時短レシピを優先的に検索中<br>
         💝 栄養バランスも考慮しています<br>
@@ -1520,7 +1582,7 @@ function renderRecipeCard(recipe, score) {
         
         ${recipe.mamaNote ? `
           <div style="background: var(--light-orange); padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid var(--secondary-color);">
-            <strong style="color: var(--secondary-color);">👩‍🍳 美香さんへのアドバイス：</strong><br>
+            <strong style="color: var(--secondary-color);">👩‍🍳 アドバイス：</strong><br>
             ${recipe.mamaNote}
           </div>
         ` : ''}
