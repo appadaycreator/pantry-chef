@@ -1,1 +1,14 @@
-# pantry-chef
+# PantryChef
+
+手持ちの食材から最適なレシピを提案する PWA アプリです。GitHub Pages でホスティングすることを想定しています。
+
+## セットアップ
+1. リポジトリを clone して `GitHub Pages` を有効化してください。
+2. `YOUR_AMAZON_ID` などアフィリエイトIDを `js/affiliates.js` に設定します。
+3. 必要に応じて `sitemap.xml` のドメインを変更してください。
+4. アイコンやOGP画像は環境の都合で同梱していません。`manifest.json` と `index.html`
+   の `og:image` に任意の画像URLを指定してください。
+
+## Google Search Console
+`index.html` にサイト所有者確認用の meta タグを追加して登録します。
+A8サイト紹介文: 手持ち食材から最適レシピを提案するAIアプリ。冷蔵庫の余り物活用で食材ロス削減をサポート。料理初心者から忙しい主婦まで、毎日の献立に役立つ便利ツールです。

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PantryChef - AI レシピジェネレーター</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+  <meta name="description" content="手持ち食材から最適なレシピを提案する AI アプリ">
+  <meta property="og:title" content="PantryChef">
+  <meta property="og:description" content="冷蔵庫の食材から AI がレシピを提案">
+  <meta property="og:image" content="https://via.placeholder.com/1200x630.png">
+  <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAwAB/3WuuKQAAAAASUVORK5CYII=">
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-TXQGZRF9');</script>
+  <!-- End Google Tag Manager -->
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXQGZRF9"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <header>
+    <h1>PantryChef</h1>
+  </header>
+  <main>
+    <section id="input-section">
+      <h2>食材を選択</h2>
+      <div id="ingredients"></div>
+      <input type="text" id="custom-ingredient" placeholder="その他の食材">
+      <button id="add-ingredient">追加</button>
+      <div id="filters">
+        <label>調理時間:
+          <select id="time-filter">
+            <option value="">指定なし</option>
+            <option value="15">15分以内</option>
+            <option value="30">30分以内</option>
+            <option value="60">60分以内</option>
+          </select>
+        </label>
+      </div>
+      <button id="search">レシピ検索</button>
+    </section>
+    <section id="results"></section>
+  </main>
+  <footer>
+    <a href="privacy.html">プライバシーポリシー</a> |
+    <a href="disclaimer.html">免責事項</a> |
+    <a href="contact.html">問い合わせ</a>
+  </footer>
+<script src="js/recipes.js"></script>
+<script src="js/affiliates.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

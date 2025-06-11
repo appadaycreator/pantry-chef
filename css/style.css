@@ -1,0 +1,30 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  background: #F5F5F5;
+  color: #424242;
+}
+header {
+  background: #4CAF50;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+main {
+  padding: 1rem;
+}
+#ingredients label {
+  display: inline-block;
+  margin: 0.2rem;
+}
+#results .card {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  background: white;
+}
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #fafafa;
+}
