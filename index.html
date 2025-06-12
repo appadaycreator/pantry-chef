@@ -308,6 +308,7 @@
     .custom-ingredient-input {
       display: flex;
       gap: 1rem;
+      flex-wrap: wrap;
     }
 
     .custom-ingredient-field {
@@ -830,10 +831,18 @@
       .mama-section {
         padding: 1.5rem;
       }
-      
+
       .search-btn {
         padding: 1.2rem 2.5rem;
         font-size: 1.1rem;
+      }
+
+      .custom-ingredient-input {
+        flex-direction: column;
+      }
+
+      .custom-ingredient-input .mama-button {
+        width: 100%;
       }
     }
 
