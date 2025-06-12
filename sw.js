@@ -6,7 +6,10 @@ const urlsToCache = [
   '/js/app.js',
   '/js/recipes.js',
   '/js/affiliates.js',
-  '/data/recipes.json'
+  '/data/recipes.json',
+  '/images/icon-192x192.png',
+  '/images/icon-512x512.png',
+  '/images/ogp-image.jpg'
 ];
 
 self.addEventListener('install', event => {
