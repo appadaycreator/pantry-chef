@@ -887,17 +887,31 @@
         flex-direction: column;
       }
 
-      .custom-ingredient-input .mama-button {
-        width: 100%;
-      }
-
-      .custom-ingredient-input .custom-ingredient-field {
-        width: 100%;
-      }
+    .custom-ingredient-input .mama-button {
+      width: 100%;
     }
 
-    /* PDF Export Optimization */
-    @media print {
+    .custom-ingredient-input .custom-ingredient-field {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .ingredients-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .ingredient-card {
+      padding: 0.75rem;
+    }
+
+    .ingredient-card .ingredient-name {
+      font-size: 0.8rem;
+    }
+  }
+
+  /* PDF Export Optimization */
+  @media print {
       * {
         box-shadow: none !important;
       }
