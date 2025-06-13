@@ -851,6 +851,11 @@
 
       .stat-card {
         padding: 1rem;
+        min-height: 120px;
+      }
+
+      .ingredient-card {
+        min-height: 120px;
       }
 
       .stat-icon {
@@ -1363,6 +1368,177 @@ const mamaRecipesData = {
       nutrition: { protein: 14, carbs: 10, fat: 12, fiber: 2 },
       tags: ['ヘルシー', 'ご飯に合う', '作り置き'],
       mamaNote: 'とろみのあるあんが子どもに人気。豆腐でヘルシー！'
+    },
+    {
+      id: 12,
+      name: 'ツナマヨおにぎり',
+      ingredients: ['ご飯', 'ツナ缶', 'マヨネーズ', '醤油'],
+      cookingTime: 5,
+      difficulty: 'easy',
+      category: 'main',
+      calories: 250,
+      servings: 1,
+      instructions: [
+        'ツナ缶をマヨネーズと醤油で和える',
+        '温かいご飯に混ぜ合わせる',
+        'ラップで包んで握る',
+        'お好みで海苔を巻いて完成'
+      ],
+      nutrition: { protein: 12, carbs: 40, fat: 6, fiber: 1 },
+      tags: ['お弁当', '超時短', '子ども喜ぶ'],
+      mamaNote: 'ラップを使うと手が汚れずラクラク！'
+    },
+    {
+      id: 13,
+      name: '簡単カレーチャーハン',
+      ingredients: ['ご飯', '鶏肉', '玉ねぎ', 'カレー粉', '卵', '油', '塩', 'こしょう'],
+      cookingTime: 10,
+      difficulty: 'easy',
+      category: 'main',
+      calories: 350,
+      servings: 2,
+      instructions: [
+        'フライパンで鶏肉と玉ねぎを炒める',
+        'ご飯を加えカレー粉を振る',
+        '溶き卵を回し入れ手早く炒める',
+        '塩こしょうで味を調える'
+      ],
+      nutrition: { protein: 20, carbs: 50, fat: 12, fiber: 2 },
+      tags: ['カレー風味', 'ワンパン', '子ども向け'],
+      mamaNote: '残りご飯の活用にもおすすめです。'
+    },
+    {
+      id: 14,
+      name: 'ほうれん草とベーコンのバター炒め',
+      ingredients: ['ほうれん草', 'ベーコン', 'バター', '塩', 'こしょう'],
+      cookingTime: 7,
+      difficulty: 'easy',
+      category: 'side',
+      calories: 180,
+      servings: 2,
+      instructions: [
+        'フライパンでベーコンを炒める',
+        'ほうれん草を加えてさっと炒める',
+        'バターを入れ溶かす',
+        '塩こしょうで味を調える'
+      ],
+      nutrition: { protein: 10, carbs: 4, fat: 14, fiber: 3 },
+      tags: ['緑黄色野菜', 'お弁当', '簡単'],
+      mamaNote: '冷凍ほうれん草でもおいしく作れます。'
+    },
+    {
+      id: 15,
+      name: 'キャベツと鶏肉の塩炒め',
+      ingredients: ['キャベツ', '鶏肉', 'にんにく', '塩', 'こしょう', '油'],
+      cookingTime: 8,
+      difficulty: 'easy',
+      category: 'main',
+      calories: 250,
+      servings: 2,
+      instructions: [
+        'フライパンに油を熱しにんにくを炒める',
+        '鶏肉を加えて火が通るまで炒める',
+        'キャベツを加えてさらに炒める',
+        '塩こしょうで味付けして完成'
+      ],
+      nutrition: { protein: 22, carbs: 10, fat: 10, fiber: 3 },
+      tags: ['さっぱり', '時短'],
+      mamaNote: '仕上げにごま油を少し加えると風味UP。'
+    },
+    {
+      id: 16,
+      name: 'ブロッコリーと卵のサラダ',
+      ingredients: ['ブロッコリー', '卵', 'マヨネーズ', '塩', 'こしょう'],
+      cookingTime: 6,
+      difficulty: 'easy',
+      category: 'side',
+      calories: 150,
+      servings: 2,
+      instructions: [
+        'ブロッコリーを小房に分けて茹でる',
+        'ゆで卵を作り一口大に切る',
+        'マヨネーズで和える',
+        '塩こしょうで味を整える'
+      ],
+      nutrition: { protein: 10, carbs: 8, fat: 8, fiber: 3 },
+      tags: ['ヘルシー', '緑黄色野菜'],
+      mamaNote: 'ゆで卵をレンジ調理器具で作ると時短です。'
+    },
+    {
+      id: 17,
+      name: '豚肉と白菜の重ね煮',
+      ingredients: ['豚肉', '白菜', '醤油', 'みりん', '酒'],
+      cookingTime: 15,
+      difficulty: 'easy',
+      category: 'main',
+      calories: 300,
+      servings: 3,
+      instructions: [
+        '鍋に豚肉と白菜を交互に重ねる',
+        '調味料を回し入れ蓋をして煮る',
+        '白菜がしんなりしたら全体を混ぜる',
+        '器に盛り付けて完成'
+      ],
+      nutrition: { protein: 20, carbs: 12, fat: 18, fiber: 3 },
+      tags: ['鍋ひとつ', 'あったか'],
+      mamaNote: '白菜から水分が出るので水は少なめでOK。'
+    },
+    {
+      id: 18,
+      name: 'きのこたっぷり和風パスタ',
+      ingredients: ['パスタ', 'きのこ類', 'にんにく', '醤油', 'バター', '塩', 'こしょう'],
+      cookingTime: 13,
+      difficulty: 'easy',
+      category: 'main',
+      calories: 420,
+      servings: 2,
+      instructions: [
+        'パスタを茹でる',
+        'フライパンできのことにんにくを炒める',
+        '茹でたパスタと調味料を加えて絡める',
+        '仕上げにバターを加える'
+      ],
+      nutrition: { protein: 16, carbs: 60, fat: 10, fiber: 4 },
+      tags: ['パスタ', '和風', 'きのこ'],
+      mamaNote: 'バターの代わりにオリーブオイルでもOK。'
+    },
+    {
+      id: 19,
+      name: '豆腐ステーキ',
+      ingredients: ['豆腐', '醤油', 'みりん', '片栗粉', '油'],
+      cookingTime: 8,
+      difficulty: 'easy',
+      category: 'main',
+      calories: 200,
+      servings: 2,
+      instructions: [
+        '豆腐の水気を切り片栗粉をまぶす',
+        'フライパンで両面を焼く',
+        '醤油とみりんを加えて絡める',
+        'タレがとろっとしたら完成'
+      ],
+      nutrition: { protein: 14, carbs: 4, fat: 12, fiber: 2 },
+      tags: ['ヘルシー', '節約'],
+      mamaNote: '水切りをしっかりすると崩れません。'
+    },
+    {
+      id: 20,
+      name: 'じゃがいもガレット',
+      ingredients: ['じゃがいも', '塩', 'こしょう', '油', 'チーズ'],
+      cookingTime: 12,
+      difficulty: 'easy',
+      category: 'side',
+      calories: 250,
+      servings: 2,
+      instructions: [
+        'じゃがいもを細切りにして水気を拭く',
+        'フライパンに広げて焼く',
+        '途中でチーズをのせる',
+        '両面がこんがりしたら完成'
+      ],
+      nutrition: { protein: 6, carbs: 30, fat: 12, fiber: 3 },
+      tags: ['おつまみ', 'カリカリ'],
+      mamaNote: '薄く広げるとカリッと仕上がります。'
     }
   ]
 };
