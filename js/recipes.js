@@ -257,7 +257,7 @@ const recipesData = {
       name: 'ナスとひき肉の甘味噌炒め',
       ingredients: ['ナス', '豚肉', 'みそ', 'にんにく', '砂糖'],
       cookingTime: 15
-    }
+    },
     {
       id: 41,
       name: 'ピーマンと豚肉のスタミナ炒め',
