@@ -954,6 +954,11 @@
           <div class="stat-label">見つかったレシピ</div>
         </div>
         <div class="stat-card">
+          <div class="stat-icon">🍳</div>
+          <div class="stat-value" id="total-recipe-count">0</div>
+          <div class="stat-label">総レシピ数</div>
+        </div>
+        <div class="stat-card">
           <div class="stat-icon">⭐</div>
           <div class="stat-value" id="match-rate">0%</div>
           <div class="stat-label">平均マッチ率</div>
@@ -1382,6 +1387,7 @@ const calorieFilter = document.getElementById('calorie-filter');
 // Stats elements
 const selectedCountEl = document.getElementById('selected-count');
 const recipeCountEl = document.getElementById('recipe-count');
+const totalRecipeCountEl = document.getElementById('total-recipe-count');
 const matchRateEl = document.getElementById('match-rate');
 const avgTimeEl = document.getElementById('avg-time');
 
@@ -1772,6 +1778,7 @@ function loadFavorites() {
 function updateStats() {
   selectedCountEl.textContent = selectedIngredients.size;
   recipeCountEl.textContent = currentRecipes.length;
+  totalRecipeCountEl.textContent = mamaRecipesData.recipes.length;
   
   if (currentRecipes.length > 0) {
     const averageMatch = currentRecipes.reduce((sum, item) => sum + item.score, 0) / currentRecipes.length;
