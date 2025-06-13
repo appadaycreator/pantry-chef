@@ -204,6 +204,10 @@
       padding-bottom: 1rem;
       border-bottom: 3px solid #f0f0f0;
     }
+      .section-header.accordion-header {
+        cursor: pointer;
+        position: relative;
+      }
 
     .section-icon {
       font-size: 2rem;
@@ -938,7 +942,7 @@
 
       <!-- Ingredients Selection Section -->
       <section class="mama-section">
-        <div class="section-header">
+        <div class="section-header accordion-header" onclick="toggleSection(event)">
           <div class="section-icon">
             <i class="fas fa-carrot"></i>
           </div>
@@ -946,22 +950,25 @@
             <h2 class="section-title">冷蔵庫の食材をチェック</h2>
             <p class="section-subtitle">今ある食材を選んで、無駄なく美味しく！</p>
           </div>
+            <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
         </div>
-        
-        <div class="ingredients-container">
-          <div class="ingredients-grid" id="ingredients"></div>
-        </div>
-        
-        <div class="custom-ingredient-section">
-          <div class="custom-ingredient-header">
-            <i class="fas fa-plus-circle custom-ingredient-icon"></i>
-            <h3>その他の食材を追加</h3>
+
+        <div class="accordion-content">
+          <div class="ingredients-container">
+            <div class="ingredients-grid" id="ingredients"></div>
           </div>
-          <div class="custom-ingredient-input">
-            <input type="text" id="custom-ingredient" class="custom-ingredient-field" placeholder="例：きゅうり、しいたけ、豆腐...">
-            <button class="mama-button btn-secondary" id="add-ingredient">
-              <i class="fas fa-plus"></i> 追加
-            </button>
+
+          <div class="custom-ingredient-section">
+            <div class="custom-ingredient-header">
+              <i class="fas fa-plus-circle custom-ingredient-icon"></i>
+              <h3>その他の食材を追加</h3>
+            </div>
+            <div class="custom-ingredient-input">
+              <input type="text" id="custom-ingredient" class="custom-ingredient-field" placeholder="例：きゅうり、しいたけ、豆腐...">
+              <button class="mama-button btn-secondary" id="add-ingredient">
+                <i class="fas fa-plus"></i> 追加
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -1644,6 +1651,25 @@ function toggleRecipeDetails(event) {
     }
   }
 }
+// Accordion toggle for sections
+function toggleSection(event) {
+  const header = event.currentTarget;
+  const content = header.nextElementSibling;
+  if (!content) return;
+  const isOpen = content.style.display === "block";
+  content.style.display = isOpen ? "none" : "block";
+  const arrow = header.querySelector(".accordion-arrow i");
+  if (arrow) {
+    if (isOpen) {
+      arrow.classList.remove("fa-chevron-up");
+      arrow.classList.add("fa-chevron-down");
+    } else {
+      arrow.classList.remove("fa-chevron-down");
+      arrow.classList.add("fa-chevron-up");
+    }
+  }
+}
+
 
 // Get difficulty text in Japanese
 function getDifficultyText(difficulty) {
