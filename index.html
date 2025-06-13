@@ -76,6 +76,8 @@
       background: rgba(255,255,255,0.1);
       border-radius: 50%;
       transform: rotate(45deg);
+      pointer-events: none;
+      z-index: 1;
     }
 
     .mama-header::after {
@@ -87,6 +89,8 @@
       height: 200px;
       background: rgba(255,255,255,0.05);
       border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
     }
 
     .header-content {
@@ -104,6 +108,7 @@
       border-radius: 8px;
       color: var(--text-primary);
       font-size: 0.9rem;
+      z-index: 3;
     }
 
     .text-size-control select {
@@ -925,6 +930,17 @@
     .custom-ingredient-input .custom-ingredient-field {
       width: 100%;
     }
+
+    /* Adjust recipe accordion on small screens */
+    .recipe-card .accordion-arrow {
+      top: auto;
+      bottom: 0.75rem;
+      right: 1rem;
+    }
+
+    .recipe-card .recipe-header {
+      padding-bottom: 3rem;
+    }
   }
 
   @media (max-width: 480px) {
@@ -943,6 +959,15 @@
     .text-size-control {
       top: 0.25rem;
       right: 0.25rem;
+    }
+
+    .recipe-card .accordion-arrow {
+      bottom: 0.5rem;
+      right: 0.5rem;
+    }
+
+    .recipe-card .recipe-header {
+      padding-bottom: 3rem;
     }
   }
 
