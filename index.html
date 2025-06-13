@@ -232,7 +232,8 @@
       .section-header.accordion-header {
         cursor: pointer;
         position: relative;
-      }
+        padding-right: 2.5rem;
+}
 
     .section-icon {
       font-size: 2rem;
@@ -520,7 +521,7 @@
     }
 
     .recipe-header {
-      padding: 3.5rem 2rem 2rem;
+      padding: 3.5rem 2rem 2rem; padding-right: 3rem;
       background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
       color: white;
       position: relative;
@@ -939,8 +940,7 @@
     }
 
     .recipe-card .recipe-header {
-      padding-bottom: 3rem;
-    }
+      padding-bottom: 3rem; padding-right: 3rem;}
   }
 
   @media (max-width: 480px) {
@@ -967,7 +967,7 @@
     }
 
     .recipe-card .recipe-header {
-      padding-bottom: 3rem;
+      padding-bottom: 3rem; padding-right: 3rem;
     }
   }
 
@@ -1045,16 +1045,6 @@
           <div class="stat-icon">🍳</div>
           <div class="stat-value" id="total-recipe-count">0</div>
           <div class="stat-label">総レシピ数</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">⭐</div>
-          <div class="stat-value" id="match-rate">0%</div>
-          <div class="stat-label">平均マッチ率</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">⏱️</div>
-          <div class="stat-value" id="avg-time">0分</div>
-          <div class="stat-label">平均調理時間</div>
         </div>
       </div>
 
@@ -1201,7 +1191,7 @@
       <div class="footer-links">
         <a href="#privacy"><i class="fas fa-shield-alt"></i> プライバシーポリシー</a>
         <a href="#terms"><i class="fas fa-file-contract"></i> 利用規約</a>
-        <a href="#contact"><i class="fas fa-envelope"></i> お問い合わせ</a>
+        <a href="contact.html"><i class="fas fa-envelope"></i> お問い合わせ</a>
         <a href="#feedback"><i class="fas fa-comment-dots"></i> ご意見・ご要望</a>
       </div>
       <p style="opacity: 0.8; margin-top: 1rem;">
@@ -2021,9 +2011,7 @@ const clearBtn = document.getElementById('clear-ingredients');
 // Stats elements
 const selectedCountEl = document.getElementById('selected-count');
 const recipeCountEl = document.getElementById('recipe-count');
-const totalRecipeCountEl = document.getElementById('total-recipe-count');
-const matchRateEl = document.getElementById('match-rate');
-const avgTimeEl = document.getElementById('avg-time');
+const totalRecipeCountEl = document.getElementById('total-recipe-count')
 
 // Initialize the app
 function init() {
@@ -2447,17 +2435,7 @@ function updateStats() {
   selectedCountEl.textContent = selectedIngredients.size;
   recipeCountEl.textContent = currentRecipes.length;
   totalRecipeCountEl.textContent = mamaRecipesData.recipes.length;
-  
-  if (currentRecipes.length > 0) {
-    const averageMatch = currentRecipes.reduce((sum, item) => sum + item.score, 0) / currentRecipes.length;
-    matchRateEl.textContent = Math.round(averageMatch * 100) + '%';
-    
-    const averageTime = currentRecipes.reduce((sum, item) => sum + item.recipe.cookingTime, 0) / currentRecipes.length;
-    avgTimeEl.textContent = Math.round(averageTime) + '分';
-  } else {
-    matchRateEl.textContent = '0%';
-    avgTimeEl.textContent = '0分';
-  }
+
 }
 
 // Event listeners
