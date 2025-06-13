@@ -785,6 +785,22 @@
       margin: 0 auto 2rem;
     }
 
+    .progress-wrapper {
+      width: 80%;
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 1rem auto;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--primary-color);
+      transition: width 0.2s;
+    }
+
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
@@ -1245,6 +1261,7 @@ const mamaRecipesData = {
 let selectedIngredients = new Set();
 let currentRecipes = [];
 let favorites = new Set();
+let progressInterval;
 
 // DOM Elements
 const ingredientsDiv = document.getElementById('ingredients');
@@ -1427,9 +1444,10 @@ function searchRecipes() {
       .filter(item => item.score > 0)
       .sort((a, b) => b.score - a.score)
       .slice(0, 12);
-    
+
     renderResults();
     updateStats();
+    stopProgress();
     showNotification(`${currentRecipes.length}件のレシピが見つかりました！`, 'success');
   }, 1200);
 }
@@ -1439,6 +1457,7 @@ function showLoading() {
   resultsDiv.innerHTML = `
     <div class="loading-state">
       <div class="loading-spinner"></div>
+      <div class="progress-wrapper"><div class="progress-bar" id="search-progress"></div></div>
       <h3>あなたにぴったりのレシピを探しています...</h3>
       <p style="color: var(--text-secondary); margin-top: 1rem;">
         🔍 時短レシピを優先的に検索中<br>
@@ -1449,6 +1468,23 @@ function showLoading() {
   `;
   resultsSection.style.display = 'block';
   resultsSection.scrollIntoView({ behavior: 'smooth' });
+  startProgress();
+}
+
+function startProgress() {
+  const bar = document.getElementById('search-progress');
+  let value = 0;
+  if (bar) bar.style.width = '0%';
+  progressInterval = setInterval(() => {
+    value = Math.min(value + 5, 90);
+    if (bar) bar.style.width = value + '%';
+  }, 100);
+}
+
+function stopProgress() {
+  clearInterval(progressInterval);
+  const bar = document.getElementById('search-progress');
+  if (bar) bar.style.width = '100%';
 }
 
 // Render search results
