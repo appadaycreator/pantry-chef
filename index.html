@@ -22,6 +22,7 @@
   
   <style>
     :root {
+      --base-font-size: 16px;
       --primary-color: #4CAF50;
       --primary-dark: #388E3C;
       --secondary-color: #FF9800;
@@ -43,6 +44,10 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+    }
+
+    html {
+      font-size: var(--base-font-size);
     }
 
     body {
@@ -88,6 +93,21 @@
       position: relative;
       z-index: 2;
       text-align: center;
+    }
+
+    .text-size-control {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255, 255, 255, 0.6);
+      padding: 0.3rem 0.6rem;
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+
+    .text-size-control select {
+      font-size: 0.9rem;
     }
 
     .app-logo {
@@ -829,6 +849,12 @@
     @media (max-width: 768px) {
       .main-container {
         padding: 0 1rem;
+        max-width: 100%;
+      }
+
+      .text-size-control {
+        top: 0.5rem;
+        right: 0.5rem;
       }
       
       .app-title {
@@ -913,6 +939,11 @@
     .ingredient-card .ingredient-name {
       font-size: 0.8rem;
     }
+
+    .text-size-control {
+      top: 0.25rem;
+      right: 0.25rem;
+    }
   }
 
   /* PDF Export Optimization */
@@ -959,6 +990,14 @@
             <i class="fas fa-mobile-alt"></i> スマホで簡単操作
           </div>
         </div>
+      </div>
+      <div class="text-size-control">
+        <label for="text-size">文字サイズ</label>
+        <select id="text-size">
+          <option value="16">標準</option>
+          <option value="18">大</option>
+          <option value="14">小</option>
+        </select>
       </div>
     </div>
   </header>
@@ -1972,6 +2011,21 @@ function init() {
   difficultyFilter.value = 'easy';
 }
 
+function initTextSize() {
+  const select = document.getElementById('text-size');
+  if (!select) return;
+  const saved = localStorage.getItem('text-size');
+  if (saved) {
+    document.documentElement.style.fontSize = saved + 'px';
+    select.value = saved;
+  }
+  select.addEventListener('change', () => {
+    const size = select.value;
+    document.documentElement.style.fontSize = size + 'px';
+    localStorage.setItem('text-size', size);
+  });
+}
+
 // Render ingredient cards with emojis
 function renderIngredients() {
   ingredientsDiv.innerHTML = '';
@@ -2410,7 +2464,10 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Initialize app when page loads
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  initTextSize();
+});
 
 // Demo mode: Auto-select common ingredients for busy moms
 setTimeout(() => {
