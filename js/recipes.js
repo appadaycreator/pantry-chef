@@ -197,6 +197,66 @@ const recipesData = {
       name: 'キャベツお好み焼き',
       ingredients: ['キャベツ', '卵', '小麦粉', '豚肉'],
       cookingTime: 15
+    },
+    {
+      id: 31,
+      name: '牛肉ピーマンオイスター炒め',
+      ingredients: ['牛肉', 'ピーマン', 'にんにく', '醤油', 'みりん'],
+      cookingTime: 12
+    },
+    {
+      id: 32,
+      name: 'ナスのミートソースグラタン',
+      ingredients: ['ナス', '牛肉', 'トマト', 'チーズ', '玉ねぎ'],
+      cookingTime: 20
+    },
+    {
+      id: 33,
+      name: '鶏肉とズッキーニの味噌炒め',
+      ingredients: ['鶏肉', 'ズッキーニ', 'みそ', 'にんにく', '油'],
+      cookingTime: 10
+    },
+    {
+      id: 34,
+      name: 'ブロッコリーとベーコンのクリームパスタ',
+      ingredients: ['パスタ', 'ブロッコリー', 'ベーコン', '牛乳', 'チーズ'],
+      cookingTime: 15
+    },
+    {
+      id: 35,
+      name: '豚肉とほうれん草のしょうが炒め',
+      ingredients: ['豚肉', 'ほうれん草', '生姜', '醤油', 'みりん'],
+      cookingTime: 8
+    },
+    {
+      id: 36,
+      name: '牛肉と玉ねぎの甘辛丼',
+      ingredients: ['牛肉', '玉ねぎ', '醤油', 'みりん', 'ご飯'],
+      cookingTime: 10
+    },
+    {
+      id: 37,
+      name: '鶏肉のレモン焼き',
+      ingredients: ['鶏肉', 'レモン', '醤油', 'みりん', '塩'],
+      cookingTime: 12
+    },
+    {
+      id: 38,
+      name: 'ズッキーニと豚肉のカレー炒め',
+      ingredients: ['豚肉', 'ズッキーニ', 'カレー粉', 'にんにく', '油'],
+      cookingTime: 10
+    },
+    {
+      id: 39,
+      name: '豆腐とレタスの中華スープ',
+      ingredients: ['豆腐', 'レタス', '鶏肉', '醤油', '生姜'],
+      cookingTime: 7
+    },
+    {
+      id: 40,
+      name: 'ナスとひき肉の甘味噌炒め',
+      ingredients: ['ナス', '豚肉', 'みそ', 'にんにく', '砂糖'],
+      cookingTime: 15
     }
   ]
 };
