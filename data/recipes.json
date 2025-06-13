@@ -677,6 +677,186 @@
     "name": "ティラミス",
     "ingredients": ["マスカルポーネ", "卵", "砂糖", "ココア"],
     "cookingTime": 30
+  },
+  {
+    "id": 111,
+    "name": "白菜と豆腐のさっと煮",
+    "ingredients": ["白菜", "豆腐", "だし", "醤油"],
+    "cookingTime": 15
+  },
+  {
+    "id": 112,
+    "name": "トマトと牛肉の中華炒め",
+    "ingredients": ["牛肉", "トマト", "にんにく", "醤油"],
+    "cookingTime": 12
+  },
+  {
+    "id": 113,
+    "name": "ツナとコーンの炊き込みご飯",
+    "ingredients": ["ご飯", "ツナ缶", "コーン", "醤油"],
+    "cookingTime": 20
+  },
+  {
+    "id": 114,
+    "name": "鶏肉と大根の煮物",
+    "ingredients": ["鶏肉", "大根", "醤油", "みりん"],
+    "cookingTime": 25
+  },
+  {
+    "id": 115,
+    "name": "豚肉の韓国風焼き",
+    "ingredients": ["豚肉", "コチュジャン", "醤油", "にんにく"],
+    "cookingTime": 15
+  },
+  {
+    "id": 116,
+    "name": "鮭ときのこのホイル蒸し",
+    "ingredients": ["鮭", "きのこ類", "バター"],
+    "cookingTime": 18
+  },
+  {
+    "id": 117,
+    "name": "じゃがいものカレースープ",
+    "ingredients": ["じゃがいも", "玉ねぎ", "カレー粉", "だし"],
+    "cookingTime": 20
+  },
+  {
+    "id": 118,
+    "name": "レタスと卵のスープ",
+    "ingredients": ["レタス", "卵", "鶏ガラスープ"],
+    "cookingTime": 8
+  },
+  {
+    "id": 119,
+    "name": "ほうれん草とベーコンのキッシュ",
+    "ingredients": ["ほうれん草", "ベーコン", "卵", "チーズ"],
+    "cookingTime": 25
+  },
+  {
+    "id": 120,
+    "name": "キャベツとツナのサラダ",
+    "ingredients": ["キャベツ", "ツナ缶", "マヨネーズ"],
+    "cookingTime": 5
+  },
+  {
+    "id": 121,
+    "name": "豆腐と豚肉の豆板醤炒め",
+    "ingredients": ["豆腐", "豚肉", "豆板醤", "にんにく"],
+    "cookingTime": 10
+  },
+  {
+    "id": 122,
+    "name": "ナスと牛肉のトマト煮込み",
+    "ingredients": ["ナス", "牛肉", "トマト", "にんにく"],
+    "cookingTime": 20
+  },
+  {
+    "id": 123,
+    "name": "ブロッコリーのチーズ焼き",
+    "ingredients": ["ブロッコリー", "チーズ", "ベーコン"],
+    "cookingTime": 15
+  },
+  {
+    "id": 124,
+    "name": "にんじんとピーマンのソース炒め",
+    "ingredients": ["にんじん", "ピーマン", "ウスターソース"],
+    "cookingTime": 8
+  },
+  {
+    "id": 125,
+    "name": "鶏肉のマヨネーズ焼き",
+    "ingredients": ["鶏肉", "マヨネーズ", "塩", "こしょう"],
+    "cookingTime": 15
+  },
+  {
+    "id": 126,
+    "name": "牛乳たっぷりフレンチトースト",
+    "ingredients": ["食パン", "卵", "牛乳", "砂糖"],
+    "cookingTime": 10
+  },
+  {
+    "id": 127,
+    "name": "かぼちゃの煮付け",
+    "ingredients": ["かぼちゃ", "醤油", "みりん", "だし"],
+    "cookingTime": 20
+  },
+  {
+    "id": 128,
+    "name": "りんごと豚肉の煮込み",
+    "ingredients": ["りんご", "豚肉", "醤油", "砂糖"],
+    "cookingTime": 25
+  },
+  {
+    "id": 129,
+    "name": "トマトとチーズのオムレツ",
+    "ingredients": ["卵", "トマト", "チーズ"],
+    "cookingTime": 10
+  },
+  {
+    "id": 130,
+    "name": "サーモンアボカド丼",
+    "ingredients": ["鮭", "アボカド", "ご飯", "醤油"],
+    "cookingTime": 10
+  },
+  {
+    "id": 131,
+    "name": "揚げ出し豆腐",
+    "ingredients": ["豆腐", "片栗粉", "だし", "醤油"],
+    "cookingTime": 15
+  },
+  {
+    "id": 132,
+    "name": "鶏肉の黒胡椒炒め",
+    "ingredients": ["鶏肉", "黒胡椒", "醤油", "にんにく"],
+    "cookingTime": 12
+  },
+  {
+    "id": 133,
+    "name": "キャベツとソーセージのスープ",
+    "ingredients": ["キャベツ", "ソーセージ", "コンソメ"],
+    "cookingTime": 15
+  },
+  {
+    "id": 134,
+    "name": "牛肉とごぼうの炒め煮",
+    "ingredients": ["牛肉", "ごぼう", "醤油", "みりん"],
+    "cookingTime": 20
+  },
+  {
+    "id": 135,
+    "name": "ピーマンのツナマヨ炒め",
+    "ingredients": ["ピーマン", "ツナ缶", "マヨネーズ"],
+    "cookingTime": 8
+  },
+  {
+    "id": 136,
+    "name": "ナスとひき肉のカレー煮",
+    "ingredients": ["ナス", "豚ひき肉", "カレー粉", "トマト"],
+    "cookingTime": 20
+  },
+  {
+    "id": 137,
+    "name": "鶏ささみの梅和え",
+    "ingredients": ["鶏ささみ", "梅干し", "醤油"],
+    "cookingTime": 10
+  },
+  {
+    "id": 138,
+    "name": "豚肉ときのこの味噌炒め",
+    "ingredients": ["豚肉", "きのこ類", "味噌", "みりん"],
+    "cookingTime": 12
+  },
+  {
+    "id": 139,
+    "name": "ほうれん草のごまあえ",
+    "ingredients": ["ほうれん草", "ごま", "醤油"],
+    "cookingTime": 7
+  },
+  {
+    "id": 140,
+    "name": "鮭のマヨネーズ焼き",
+    "ingredients": ["鮭", "マヨネーズ", "塩"],
+    "cookingTime": 15
   }
   ]
 }
