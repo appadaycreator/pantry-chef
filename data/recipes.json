@@ -557,7 +557,127 @@
       "name": "ピーマンのツナ炒め",
       "ingredients": ["ピーマン", "ツナ缶", "醤油"],
       "cookingTime": 7
-    }
+    },
+  {
+    "id": 91,
+    "name": "いちごショートケーキ",
+    "ingredients": ["卵", "砂糖", "小麦粉", "いちご", "生クリーム"],
+    "cookingTime": 25
+  },
+  {
+    "id": 92,
+    "name": "チョコレートムース",
+    "ingredients": ["チョコレート", "卵", "砂糖", "生クリーム"],
+    "cookingTime": 20
+  },
+  {
+    "id": 93,
+    "name": "フルーツタルト",
+    "ingredients": ["小麦粉", "バター", "卵", "砂糖", "フルーツ"],
+    "cookingTime": 30
+  },
+  {
+    "id": 94,
+    "name": "抹茶プリン",
+    "ingredients": ["牛乳", "砂糖", "抹茶", "ゼラチン"],
+    "cookingTime": 15
+  },
+  {
+    "id": 95,
+    "name": "杏仁豆腐",
+    "ingredients": ["牛乳", "砂糖", "杏仁霜", "ゼラチン"],
+    "cookingTime": 15
+  },
+  {
+    "id": 96,
+    "name": "かぼちゃプリン",
+    "ingredients": ["かぼちゃ", "卵", "牛乳", "砂糖"],
+    "cookingTime": 25
+  },
+  {
+    "id": 97,
+    "name": "パンケーキ",
+    "ingredients": ["小麦粉", "卵", "牛乳", "砂糖"],
+    "cookingTime": 10
+  },
+  {
+    "id": 98,
+    "name": "チーズケーキ",
+    "ingredients": ["クリームチーズ", "卵", "砂糖", "小麦粉"],
+    "cookingTime": 30
+  },
+  {
+    "id": 99,
+    "name": "クレームブリュレ",
+    "ingredients": ["卵黄", "砂糖", "生クリーム", "バニラエッセンス"],
+    "cookingTime": 30
+  },
+  {
+    "id": 100,
+    "name": "さつまいもモンブラン",
+    "ingredients": ["さつまいも", "砂糖", "バター", "生クリーム"],
+    "cookingTime": 35
+  },
+  {
+    "id": 101,
+    "name": "りんごのコンポート",
+    "ingredients": ["りんご", "砂糖", "レモン"],
+    "cookingTime": 20
+  },
+  {
+    "id": 102,
+    "name": "ココナッツミルクゼリー",
+    "ingredients": ["ココナッツミルク", "砂糖", "ゼラチン"],
+    "cookingTime": 10
+  },
+  {
+    "id": 103,
+    "name": "バナナパウンドケーキ",
+    "ingredients": ["バナナ", "小麦粉", "卵", "バター", "砂糖"],
+    "cookingTime": 40
+  },
+  {
+    "id": 104,
+    "name": "レモンマフィン",
+    "ingredients": ["小麦粉", "卵", "レモン", "砂糖", "バター"],
+    "cookingTime": 25
+  },
+  {
+    "id": 105,
+    "name": "シナモンロール",
+    "ingredients": ["小麦粉", "バター", "砂糖", "シナモン"],
+    "cookingTime": 30
+  },
+  {
+    "id": 106,
+    "name": "いちご大福",
+    "ingredients": ["白玉粉", "いちご", "あんこ"],
+    "cookingTime": 20
+  },
+  {
+    "id": 107,
+    "name": "抹茶クッキー",
+    "ingredients": ["小麦粉", "バター", "砂糖", "抹茶"],
+    "cookingTime": 15
+  },
+  {
+    "id": 108,
+    "name": "プリンアラモード",
+    "ingredients": ["卵", "牛乳", "砂糖", "フルーツ"],
+    "cookingTime": 25
+  },
+  {
+    "id": 109,
+    "name": "チョコチップクッキー",
+    "ingredients": ["小麦粉", "バター", "砂糖", "チョコチップ"],
+    "cookingTime": 15
+  },
+  {
+    "id": 110,
+    "name": "ティラミス",
+    "ingredients": ["マスカルポーネ", "卵", "砂糖", "ココア"],
+    "cookingTime": 30
+  }
   ]
 }
 
