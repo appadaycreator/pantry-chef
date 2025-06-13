@@ -137,6 +137,66 @@
       "name": "豚汁",
       "ingredients": ["豚肉", "じゃがいも", "にんじん", "玉ねぎ", "味噌"],
       "cookingTime": 25
+    },
+    {
+      "id": 21,
+      "name": "鶏の照り焼き",
+      "ingredients": ["鶏肉", "醤油", "みりん", "砂糖"],
+      "cookingTime": 15
+    },
+    {
+      "id": 22,
+      "name": "豚のしょうが焼き",
+      "ingredients": ["豚肉", "生姜", "醤油", "みりん"],
+      "cookingTime": 10
+    },
+    {
+      "id": 23,
+      "name": "白菜ミルフィーユ鍋",
+      "ingredients": ["白菜", "豚肉", "醤油", "酒"],
+      "cookingTime": 20
+    },
+    {
+      "id": 24,
+      "name": "ブロッコリーと鶏肉炒め",
+      "ingredients": ["ブロッコリー", "鶏肉", "にんにく", "塩"],
+      "cookingTime": 10
+    },
+    {
+      "id": 25,
+      "name": "鮭マヨ焼き",
+      "ingredients": ["鮭", "マヨネーズ", "塩", "こしょう"],
+      "cookingTime": 12
+    },
+    {
+      "id": 26,
+      "name": "豆腐の味噌汁",
+      "ingredients": ["豆腐", "玉ねぎ", "味噌"],
+      "cookingTime": 8
+    },
+    {
+      "id": 27,
+      "name": "じゃがいもポタージュ",
+      "ingredients": ["じゃがいも", "玉ねぎ", "牛乳", "バター"],
+      "cookingTime": 25
+    },
+    {
+      "id": 28,
+      "name": "レタスチャーハン",
+      "ingredients": ["ご飯", "レタス", "卵", "鶏肉"],
+      "cookingTime": 8
+    },
+    {
+      "id": 29,
+      "name": "ほうれん草ナムル",
+      "ingredients": ["ほうれん草", "にんにく", "ごま油", "醤油"],
+      "cookingTime": 5
+    },
+    {
+      "id": 30,
+      "name": "キャベツお好み焼き",
+      "ingredients": ["キャベツ", "卵", "小麦粉", "豚肉"],
+      "cookingTime": 15
     }
   ]
 }
