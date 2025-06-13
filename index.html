@@ -482,6 +482,18 @@
       background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
       color: white;
       position: relative;
+      cursor: pointer;
+    }
+
+    .accordion-arrow {
+      position: absolute;
+      top: 50%;
+      right: 1.5rem;
+      transform: translateY(-50%);
+    }
+
+    .accordion-content {
+      display: none;
     }
 
     .recipe-badges {
@@ -1520,26 +1532,26 @@ function renderResults() {
 function renderRecipeCard(recipe, score) {
   const matchPercentage = Math.round(score * 100);
   const isFavorited = favorites.has(recipe.id);
-  
+
   return `
     <div class="recipe-card">
-      <div class="recipe-header">
+      <div class="recipe-header accordion-header" onclick="toggleRecipeDetails(event)">
         <div class="recipe-badges">
           <div class="recipe-badge match-badge">${matchPercentage}% マッチ</div>
           <div class="recipe-badge time-badge">⏱️ ${recipe.cookingTime}分</div>
         </div>
-        
-        <div class="recipe-title">${recipe.name}</div>
-        <div class="recipe-meta">
-          <span><i class="fas fa-users"></i> ${recipe.servings}人分</span>
-          <span class="difficulty-badge difficulty-${recipe.difficulty}">
-            ${getDifficultyText(recipe.difficulty)}
-          </span>
-          <span><i class="fas fa-fire"></i> ${recipe.calories}kcal</span>
-        </div>
+
+      <div class="recipe-title">${recipe.name}</div>
+      <div class="recipe-meta">
+        <span><i class="fas fa-users"></i> ${recipe.servings}人分</span>
+        <span class="difficulty-badge difficulty-${recipe.difficulty}">
+          ${getDifficultyText(recipe.difficulty)}
+        </span>
+        <span><i class="fas fa-fire"></i> ${recipe.calories}kcal</span>
       </div>
-      
-      <div class="recipe-content">
+      <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
+    </div>
+      <div class="recipe-content accordion-content">
         <div class="ingredients-section">
           <h4 class="ingredients-title">
             <i class="fas fa-list"></i> 材料 (${recipe.ingredients.length}種類)
@@ -1608,6 +1620,25 @@ function renderRecipeCard(recipe, score) {
       </div>
     </div>
   `;
+}
+
+// Accordion toggle for recipe cards
+function toggleRecipeDetails(event) {
+  const header = event.currentTarget;
+  const content = header.nextElementSibling;
+  if (!content) return;
+  const isOpen = content.style.display === 'block';
+  content.style.display = isOpen ? 'none' : 'block';
+  const arrow = header.querySelector('.accordion-arrow i');
+  if (arrow) {
+    if (isOpen) {
+      arrow.classList.remove('fa-chevron-up');
+      arrow.classList.add('fa-chevron-down');
+    } else {
+      arrow.classList.remove('fa-chevron-down');
+      arrow.classList.add('fa-chevron-up');
+    }
+  }
 }
 
 // Get difficulty text in Japanese
