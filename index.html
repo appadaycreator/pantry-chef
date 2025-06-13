@@ -1272,7 +1272,8 @@ function init() {
   
   // Set default filters for busy moms
   timeFilter.value = '15';
-  difficultyFilter.value = 'easy';
+  // デフォルトで難易度フィルターをオフにしておく
+  difficultyFilter.value = '';
 }
 
 function initTextSize() {
@@ -1415,9 +1416,9 @@ function searchRecipes() {
     currentRecipes = mamaRecipesData.recipes
       .filter(recipe => {
         return recipe.cookingTime <= maxTime &&
-               (!difficulty || recipe.difficulty === difficulty) &&
-               (!category || recipe.category === category) &&
-               recipe.calories <= maxCalories;
+               (!difficulty || !recipe.difficulty || recipe.difficulty === difficulty) &&
+               (!category || !recipe.category || recipe.category === category) &&
+               (recipe.calories === undefined || recipe.calories <= maxCalories);
       })
       .map(recipe => ({
         recipe,
