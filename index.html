@@ -315,6 +315,11 @@
       flex-wrap: wrap;
     }
 
+    .clear-ingredients {
+      text-align: right;
+      margin-top: 1rem;
+    }
+
     .custom-ingredient-field {
       flex: 1;
       padding: 1rem;
@@ -1016,6 +1021,11 @@
               <input type="text" id="custom-ingredient" class="custom-ingredient-field" placeholder="例：きゅうり、しいたけ、豆腐...">
               <button class="mama-button btn-secondary" id="add-ingredient">
                 <i class="fas fa-plus"></i> 追加
+              </button>
+            </div>
+            <div class="clear-ingredients">
+              <button class="mama-button btn-secondary" id="clear-ingredients">
+                <i class="fas fa-undo"></i> 全てのチェックを外す
               </button>
             </div>
           </div>
@@ -1942,6 +1952,7 @@ const timeFilter = document.getElementById('time-filter');
 const difficultyFilter = document.getElementById('difficulty-filter');
 const categoryFilter = document.getElementById('category-filter');
 const calorieFilter = document.getElementById('calorie-filter');
+const clearBtn = document.getElementById('clear-ingredients');
 
 // Stats elements
 const selectedCountEl = document.getElementById('selected-count');
@@ -2038,6 +2049,25 @@ function addCustomIngredient() {
   customInput.value = '';
   updateStats();
   showNotification('食材を追加しました！', 'success');
+}
+
+// Clear all selected ingredients
+function clearAllIngredients() {
+  selectedIngredients.clear();
+  currentRecipes = [];
+  document.querySelectorAll('#ingredients .ingredient-card').forEach(card => {
+    const checkbox = card.querySelector('input[type="checkbox"]');
+    if (checkbox) {
+      checkbox.checked = false;
+    }
+    card.classList.remove('selected');
+    if (!checkbox.id) {
+      card.remove();
+    }
+  });
+  resultsDiv.innerHTML = '';
+  resultsSection.style.display = 'none';
+  updateStats();
 }
 
 // Calculate recipe match score
@@ -2354,6 +2384,7 @@ function updateStats() {
 // Event listeners
 addBtn.addEventListener('click', addCustomIngredient);
 searchBtn.addEventListener('click', searchRecipes);
+clearBtn.addEventListener('click', clearAllIngredients);
 
 // Allow Enter key to add custom ingredient
 customInput.addEventListener('keypress', (e) => {
