@@ -992,7 +992,7 @@
 
       <!-- Search Filters Section -->
       <section class="mama-section">
-        <div class="section-header">
+        <div class="section-header accordion-header" onclick="toggleSection(event)">
           <div class="section-icon">
             <i class="fas fa-filter"></i>
           </div>
@@ -1000,10 +1000,12 @@
             <h2 class="section-title">お好みの条件を設定</h2>
             <p class="section-subtitle">忙しい日でも安心！時短レシピを優先検索</p>
           </div>
+          <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
         </div>
-        
-        <div class="filters-section">
-          <div class="filters-grid">
+
+        <div class="accordion-content">
+          <div class="filters-section">
+            <div class="filters-grid">
             <div class="filter-group">
               <label class="filter-label">
                 <i class="fas fa-clock"></i> 調理時間（重要！）
@@ -1051,6 +1053,7 @@
           <button class="search-btn" id="search">
             <i class="fas fa-magic"></i> AIにレシピを提案してもらう
           </button>
+        </div>
         </div>
       </section>
 
