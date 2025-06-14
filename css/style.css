@@ -28,3 +28,17 @@ footer {
   padding: 1rem;
   background: #fafafa;
 }
+
+.share-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: #1da1f2;
+  color: #fff;
+  border-radius: 4px;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+.share-button i {
+  margin-right: 0.3rem;
+}
