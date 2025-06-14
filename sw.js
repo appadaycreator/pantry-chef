@@ -13,11 +13,21 @@ const urlsToCache = [
 ];
 
 self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-      .catch(err => console.error("Cache addAll failed:", err))
-  );
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    for (const url of urlsToCache) {
+      try {
+        const response = await fetch(url, { cache: 'reload' });
+        if (response.ok) {
+          await cache.put(url, response.clone());
+        } else {
+          console.warn('Skip caching:', url, response.status);
+        }
+      } catch (err) {
+        console.warn('Failed to fetch', url, err);
+      }
+    }
+  })());
 });
 
 self.addEventListener("fetch", event => {
