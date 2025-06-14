@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>週間献立</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1 class="text-xl">週間献立提案</h1>
+    <a href="index.html" class="text-blue-600 underline">トップへ戻る</a>
+  </header>
+  <main class="max-w-2xl mx-auto p-4">
+    <button id="gen-btn" class="mama-button btn-primary mb-4" style="padding:0.5rem 1rem;background:var(--primary-color);color:white;border-radius:8px;">献立を生成</button>
+    <div id="menu" class="space-y-4"></div>
+  </main>
+  <script src="js/recipes.js"></script>
+  <script src="js/weekly.js"></script>
+</body>
+</html>
