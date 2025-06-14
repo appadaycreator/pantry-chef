@@ -22,7 +22,11 @@ function renderRecipes() {
     const div = document.createElement('div');
     div.className = 'border bg-white p-2 rounded';
     const link = r.source ? `<a href="${r.source}" class="text-blue-600 underline" target="_blank" rel="noopener">${r.name}</a>` : r.name;
-    div.innerHTML = `${link} <span class="text-sm text-gray-600">(${r.cookingTime}分)</span>`;
+    const labels = r.ingredients.map(i => `<span class="ingredient-label">${i}</span>`).join(' ');
+    div.innerHTML = `
+      <div>${link} <span class="text-sm text-gray-600">(${r.cookingTime}分)</span></div>
+      <div class="mt-1">${labels}</div>
+    `;
     listEl.appendChild(div);
   });
 }
