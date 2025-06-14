@@ -17,6 +17,14 @@ main {
   display: inline-block;
   margin: 0.2rem;
 }
+#ingredients .require-star {
+  cursor: pointer;
+  color: #ccc;
+  margin-left: 4px;
+}
+#ingredients .require-star.required {
+  color: #FF9800;
+}
 #results .card {
   border: 1px solid #ccc;
   padding: 1rem;

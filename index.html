@@ -330,6 +330,17 @@
       accent-color: var(--primary-color);
     }
 
+    .require-star {
+      position: absolute;
+      bottom: 0.5rem;
+      left: 0.5rem;
+      color: #ccc;
+      font-size: 1.1rem;
+    }
+    .require-star.required {
+      color: var(--secondary-color);
+    }
+
     .custom-ingredient-section {
       background: var(--light-orange);
       padding: 2rem;
@@ -1301,6 +1312,7 @@ const mamaRecipesData = {
 
 // Application State
 let selectedIngredients = new Set();
+let requiredIngredients = new Set();
 let currentRecipes = [];
 let favorites = new Set();
 let progressInterval;
@@ -1378,17 +1390,39 @@ function renderIngredients() {
   mamaRecipesData.ingredients.forEach(ingredient => {
     const card = document.createElement('div');
     card.className = 'ingredient-card';
-    
+
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.value = ingredient.name;
     checkbox.id = `ingredient-${ingredient.name}`;
-    
+
+    const star = document.createElement('span');
+    star.className = 'require-star';
+    star.textContent = '★';
+    if (requiredIngredients.has(ingredient.name)) star.classList.add('required');
+    star.addEventListener('click', e => {
+      e.stopPropagation();
+      if (requiredIngredients.has(ingredient.name)) {
+        requiredIngredients.delete(ingredient.name);
+        star.classList.remove('required');
+      } else {
+        requiredIngredients.add(ingredient.name);
+        star.classList.add('required');
+        if (!checkbox.checked) {
+          checkbox.checked = true;
+          toggleIngredient(ingredient.name, true);
+          card.classList.add('selected');
+        }
+      }
+      updateStats();
+    });
+
     card.innerHTML = `
       <span class="ingredient-emoji">${ingredient.emoji}</span>
       <span class="ingredient-name">${ingredient.name}</span>
     `;
     card.appendChild(checkbox);
+    card.appendChild(star);
     
     // Event listeners
     card.addEventListener('click', (e) => {
@@ -1438,7 +1472,21 @@ function addCustomIngredient() {
     <span class="ingredient-name">${ingredient}</span>
     <input type="checkbox" checked>
   `;
-  
+  const star = document.createElement('span');
+  star.className = 'require-star';
+  star.textContent = '★';
+  star.addEventListener('click', e => {
+    e.stopPropagation();
+    if (requiredIngredients.has(ingredient)) {
+      requiredIngredients.delete(ingredient);
+      star.classList.remove('required');
+    } else {
+      requiredIngredients.add(ingredient);
+      star.classList.add('required');
+    }
+    updateStats();
+  });
+
   card.addEventListener('click', () => {
     selectedIngredients.delete(ingredient);
     card.remove();
@@ -1446,6 +1494,7 @@ function addCustomIngredient() {
   });
   
   ingredientsDiv.appendChild(card);
+  card.appendChild(star);
   customInput.value = '';
   updateStats();
   showNotification('食材を追加しました！', 'success');
@@ -1454,6 +1503,7 @@ function addCustomIngredient() {
 // Clear all selected ingredients
 function clearAllIngredients() {
   selectedIngredients.clear();
+  requiredIngredients.clear();
   currentRecipes = [];
   document.querySelectorAll('#ingredients .ingredient-card').forEach(card => {
     const checkbox = card.querySelector('input[type="checkbox"]');
@@ -1461,6 +1511,8 @@ function clearAllIngredients() {
       checkbox.checked = false;
     }
     card.classList.remove('selected');
+    const star = card.querySelector('.require-star');
+    if (star) star.classList.remove('required');
     if (!checkbox.id) {
       card.remove();
     }
@@ -1472,8 +1524,12 @@ function clearAllIngredients() {
 
 // Calculate recipe match score
 function calculateMatchScore(recipe) {
+  if (![...requiredIngredients].every(r => recipe.ingredients.includes(r))) {
+    return 0;
+  }
+  const union = new Set([...selectedIngredients, ...requiredIngredients]);
   const availableIngredients = recipe.ingredients.filter(ing =>
-    selectedIngredients.has(ing)
+    union.has(ing)
   );
   return availableIngredients.length / recipe.ingredients.length;
 }
@@ -1491,7 +1547,7 @@ function estimateServings(recipe) {
 
 // Filter and search recipes
 function searchRecipes() {
-  if (selectedIngredients.size === 0) {
+  if (selectedIngredients.size === 0 && requiredIngredients.size === 0) {
     showNotification('食材を選択してください', 'warning');
     return;
   }
@@ -1510,7 +1566,8 @@ function searchRecipes() {
         return recipe.cookingTime <= maxTime &&
                (!difficulty || !recipe.difficulty || recipe.difficulty === difficulty) &&
                (!category || !recipe.category || recipe.category === category) &&
-               (estimateCalories(recipe) <= maxCalories);
+               (estimateCalories(recipe) <= maxCalories) &&
+               [...requiredIngredients].every(r => recipe.ingredients.includes(r));
       })
       .map(recipe => ({
         recipe,
@@ -1815,7 +1872,7 @@ function loadFavorites() {
 
 // Update statistics
 function updateStats() {
-  selectedCountEl.textContent = selectedIngredients.size;
+  selectedCountEl.textContent = selectedIngredients.size + requiredIngredients.size;
   recipeCountEl.textContent = currentRecipes.length;
   totalRecipeCountEl.textContent = mamaRecipesData.recipes.length;
 
