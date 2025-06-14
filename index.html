@@ -1412,10 +1412,21 @@ function clearAllIngredients() {
 
 // Calculate recipe match score
 function calculateMatchScore(recipe) {
-  const availableIngredients = recipe.ingredients.filter(ing => 
+  const availableIngredients = recipe.ingredients.filter(ing =>
     selectedIngredients.has(ing)
   );
   return availableIngredients.length / recipe.ingredients.length;
+}
+
+// Estimate calories if not provided
+function estimateCalories(recipe) {
+  if (typeof recipe.calories === 'number') return recipe.calories;
+  return 100 + recipe.ingredients.length * 50;
+}
+
+// Estimate servings if not provided
+function estimateServings(recipe) {
+  return recipe.servings ?? 2;
 }
 
 // Filter and search recipes
@@ -1439,7 +1450,7 @@ function searchRecipes() {
         return recipe.cookingTime <= maxTime &&
                (!difficulty || !recipe.difficulty || recipe.difficulty === difficulty) &&
                (!category || !recipe.category || recipe.category === category) &&
-               (recipe.calories === undefined || recipe.calories <= maxCalories);
+               (estimateCalories(recipe) <= maxCalories);
       })
       .map(recipe => ({
         recipe,
@@ -1519,13 +1530,13 @@ function renderRecipeCard(recipe, score) {
   const matchPercentage = Math.round(score * 100);
   const isFavorited = favorites.has(recipe.id);
 
-  const calories = recipe.calories ?? '-';
+  const calories = estimateCalories(recipe);
   const nutrition = recipe.nutrition || {};
   const protein = nutrition.protein ?? '-';
   const carbs = nutrition.carbs ?? '-';
   const fat = nutrition.fat ?? '-';
   const fiber = nutrition.fiber ?? '-';
-  const servings = recipe.servings ?? '';
+  const servings = estimateServings(recipe);
   const instructions = Array.isArray(recipe.instructions) ? recipe.instructions : [];
   const tags = Array.isArray(recipe.tags) ? recipe.tags : [];
 
