@@ -220,6 +220,20 @@
       margin-bottom: 2.5rem;
       box-shadow: var(--shadow);
       position: relative;
+      transition: padding 0.3s ease;
+    }
+
+    .mama-section.collapsed {
+      padding: 1rem 1.5rem;
+    }
+
+    .mama-section.collapsed .section-header {
+      margin-bottom: 0;
+      border-bottom: none;
+    }
+
+    .mama-section.collapsed .section-subtitle {
+      display: none;
     }
 
     .section-header {
@@ -1070,7 +1084,7 @@
       </div>
 
       <!-- Ingredients Selection Section -->
-      <section class="mama-section">
+      <section class="mama-section collapsed">
         <div class="section-header accordion-header" onclick="toggleSection(event)">
           <div class="section-icon">
             <i class="fas fa-carrot"></i>
@@ -1108,7 +1122,7 @@
       </section>
 
       <!-- Search Filters Section -->
-      <section class="mama-section">
+      <section class="mama-section collapsed">
         <div class="section-header accordion-header" onclick="toggleSection(event)">
           <div class="section-icon">
             <i class="fas fa-filter"></i>
@@ -1604,7 +1618,7 @@ function renderRecipeCard(recipe, score) {
             <i class="fas fa-magic"></i> 作り方（超簡単！）
           </h4>
           <ol class="instructions-list">
-            ${instructions.map(step => `<li>${step}</li>`).join('')}
+            ${instructions.length > 0 ? instructions.map(step => `<li>${step}</li>`).join('') : '<li>作り方は準備中です</li>'}
           </ol>
         </div>
 
@@ -1652,8 +1666,12 @@ function toggleSection(event) {
   const header = event.currentTarget;
   const content = header.nextElementSibling;
   if (!content) return;
+  const section = header.parentElement;
   const isOpen = content.style.display === "block";
   content.style.display = isOpen ? "none" : "block";
+  if (section) {
+    section.classList.toggle('collapsed', isOpen);
+  }
   const arrow = header.querySelector(".accordion-arrow i");
   if (arrow) {
     if (isOpen) {
