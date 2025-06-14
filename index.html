@@ -1357,6 +1357,12 @@ function initStatsScroll() {
         const target = document.querySelector(selector);
         if (target) {
           target.scrollIntoView({ behavior: 'smooth' });
+          if (selector === '#ingredients-section') {
+            const header = target.querySelector('.section-header.accordion-header');
+            if (header && target.classList.contains('collapsed')) {
+              setTimeout(() => header.click(), 300);
+            }
+          }
         }
       });
     });
