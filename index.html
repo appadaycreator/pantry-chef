@@ -603,6 +603,27 @@
       padding: 2rem;
     }
 
+    .recipe-image {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .recipe-photo {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .source-link {
+      text-align: right;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    .source-link a {
+      color: var(--accent-color);
+    }
+
     .ingredients-section {
       margin-bottom: 2rem;
     }
@@ -1293,6 +1314,7 @@ const difficultyFilter = document.getElementById('difficulty-filter');
 const categoryFilter = document.getElementById('category-filter');
 const calorieFilter = document.getElementById('calorie-filter');
 const clearBtn = document.getElementById('clear-ingredients');
+const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAEsCAAAAADI3LoeAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfpBg4DHyvxoCv+AAACwElEQVR42u3RQQ0AIBDAMED4aeeNAvZoFSzZnkXJ+R3Ay5AYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2IMiTEkxpAYQ2Iu/gcC1giplLgAAAAASUVORK5CYII=';
 
 // Stats elements
 const selectedCountEl = document.getElementById('selected-count');
@@ -1568,6 +1590,7 @@ function renderRecipeCard(recipe, score) {
   const servings = estimateServings(recipe);
   const instructions = Array.isArray(recipe.instructions) ? recipe.instructions : [];
   const tags = Array.isArray(recipe.tags) ? recipe.tags : [];
+  const imgSrc = recipe.image === "images/placeholder.jpg" ? placeholderImage : recipe.image;
 
   return `
     <div class="recipe-card">
@@ -1588,6 +1611,9 @@ function renderRecipeCard(recipe, score) {
       <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
     </div>
       <div class="recipe-content accordion-content">
+        <div class="recipe-image">
+          <img src="${imgSrc}" alt="${recipe.name}" class="recipe-photo">
+        </div>
         <div class="ingredients-section">
           <h4 class="ingredients-title">
             <i class="fas fa-list"></i> 材料 (${recipe.ingredients.length}種類)
@@ -1636,6 +1662,8 @@ function renderRecipeCard(recipe, score) {
             ${instructions.length > 0 ? instructions.map(step => `<li>${step}</li>`).join('') : '<li>作り方は準備中です</li>'}
           </ol>
         </div>
+
+        <p class="source-link">参考: <a href="${recipe.source}" target="_blank" rel="noopener">${recipe.source}</a></p>
 
         ${recipe.mamaNote ? `
           <div style="background: var(--light-orange); padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid var(--secondary-color);">
