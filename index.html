@@ -774,6 +774,31 @@
       font-weight: 500;
     }
 
+    .allergy-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .allergy-tag {
+      background: var(--soft-green);
+      color: var(--text-primary);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .allergy-tag button {
+      background: none;
+      border: none;
+      color: var(--secondary-color);
+      cursor: pointer;
+    }
+
     .mama-tips {
       background: linear-gradient(135deg, #FFF9C4, #FFF3E0);
       padding: 2rem;
@@ -1158,6 +1183,41 @@
         </div>
       </section>
 
+      <!-- Personalize Section -->
+      <section id="personalize-section" class="mama-section collapsed">
+        <div class="section-header accordion-header" onclick="toggleSection(event)">
+          <div class="section-icon">
+            <i class="fas fa-user-cog"></i>
+          </div>
+          <div>
+            <h2 class="section-title">パーソナライズ設定</h2>
+            <p class="section-subtitle">除外食材と家族構成を登録</p>
+          </div>
+          <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
+        </div>
+        <div class="accordion-content">
+          <div class="filters-section">
+            <div class="filters-grid">
+              <div class="filter-group">
+                <label class="filter-label"><i class="fas fa-ban"></i> 除外食材</label>
+                <div class="allergy-input" style="display:flex;gap:0.5rem;margin-bottom:0.5rem;">
+                  <input type="text" id="allergy-input" class="filter-control" placeholder="例：卵、牛乳">
+                  <button class="mama-button btn-secondary" id="add-allergy"><i class="fas fa-plus"></i> 追加</button>
+                </div>
+                <div id="allergy-list" class="allergy-tags"></div>
+              </div>
+              <div class="filter-group">
+                <label class="filter-label"><i class="fas fa-users"></i> 家族構成</label>
+                <div class="family-input" style="display:flex;align-items:center;gap:0.5rem;">
+                  大人 <input type="number" id="family-adults" class="filter-control" style="width:60px;" min="0">
+                  子ども <input type="number" id="family-children" class="filter-control" style="width:60px;" min="0">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Search Filters Section -->
       <section class="mama-section collapsed">
         <div class="section-header accordion-header" onclick="toggleSection(event)">
@@ -1331,6 +1391,9 @@ let requiredIngredients = new Set();
 let currentRecipes = [];
 let favorites = new Set();
 let progressInterval;
+let allergyList = [];
+let familyAdults = 2;
+let familyChildren = 0;
 
 // DOM Elements
 const ingredientsDiv = document.getElementById('ingredients');
@@ -1346,6 +1409,11 @@ const categoryFilter = document.getElementById('category-filter');
 const methodFilter = document.getElementById('method-filter');
 const calorieFilter = document.getElementById('calorie-filter');
 const clearBtn = document.getElementById('clear-ingredients');
+const allergyInput = document.getElementById('allergy-input');
+const addAllergyBtn = document.getElementById('add-allergy');
+const allergyListEl = document.getElementById('allergy-list');
+const familyAdultsInput = document.getElementById('family-adults');
+const familyChildrenInput = document.getElementById('family-children');
 
 // Stats elements
 const selectedCountEl = document.getElementById('selected-count');
@@ -1563,6 +1631,68 @@ function estimateServings(recipe) {
   return recipe.servings ?? 2;
 }
 
+function loadAllergies() {
+  try {
+    const saved = localStorage.getItem('allergy-list');
+    if (saved) allergyList = JSON.parse(saved);
+  } catch (e) {
+    allergyList = [];
+  }
+  renderAllergyTags();
+}
+
+function saveAllergies() {
+  try {
+    localStorage.setItem('allergy-list', JSON.stringify(allergyList));
+  } catch (e) {}
+}
+
+function renderAllergyTags() {
+  if (!allergyListEl) return;
+  allergyListEl.innerHTML = allergyList
+    .map((ing, idx) => `<span class="allergy-tag">${ing}<button onclick="removeAllergy(${idx})">&times;</button></span>`)
+    .join('');
+}
+
+function addAllergy() {
+  const val = allergyInput.value.trim();
+  if (!val) return;
+  if (!allergyList.includes(val)) {
+    allergyList.push(val);
+    saveAllergies();
+    renderAllergyTags();
+  }
+  allergyInput.value = '';
+}
+
+function removeAllergy(index) {
+  allergyList.splice(index, 1);
+  saveAllergies();
+  renderAllergyTags();
+}
+
+function loadFamily() {
+  const a = parseInt(localStorage.getItem('family-adults')); 
+  const c = parseInt(localStorage.getItem('family-children')); 
+  if (!isNaN(a)) familyAdults = a; 
+  if (!isNaN(c)) familyChildren = c; 
+  if (familyAdultsInput) familyAdultsInput.value = familyAdults; 
+  if (familyChildrenInput) familyChildrenInput.value = familyChildren; 
+}
+
+function saveFamily() {
+  localStorage.setItem('family-adults', familyAdults);
+  localStorage.setItem('family-children', familyChildren);
+}
+
+function getServingMultiplier() {
+  return (familyAdults + familyChildren * 0.5) / 2;
+}
+
+function adjustServings(servings) {
+  return Math.ceil(servings * getServingMultiplier());
+}
+
 // Filter and search recipes
 function searchRecipes() {
   if (selectedIngredients.size === 0 && requiredIngredients.size === 0) {
@@ -1579,16 +1709,17 @@ function searchRecipes() {
   // Show loading
   showLoading();
   
-  setTimeout(() => {
-    currentRecipes = mamaRecipesData.recipes
-      .filter(recipe => {
-               return recipe.cookingTime <= maxTime &&
-                      (!difficulty || !recipe.difficulty || recipe.difficulty === difficulty) &&
-                      (!category || !recipe.category || recipe.category === category) &&
-                      (!method || !recipe.method || recipe.method === method) &&
-                      (estimateCalories(recipe) <= maxCalories) &&
-                      [...requiredIngredients].every(r => recipe.ingredients.includes(r));
-      })
+    setTimeout(() => {
+      currentRecipes = mamaRecipesData.recipes
+        .filter(recipe => {
+                 return recipe.cookingTime <= maxTime &&
+                        (!difficulty || !recipe.difficulty || recipe.difficulty === difficulty) &&
+                        (!category || !recipe.category || recipe.category === category) &&
+                        (!method || !recipe.method || recipe.method === method) &&
+                        (estimateCalories(recipe) <= maxCalories) &&
+                        !recipe.ingredients.some(i => allergyList.includes(i)) &&
+                        [...requiredIngredients].every(r => recipe.ingredients.includes(r));
+        })
       .map(recipe => ({
         recipe,
         score: calculateMatchScore(recipe)
@@ -1673,7 +1804,8 @@ function renderRecipeCard(recipe, score) {
   const carbs = nutrition.carbs ?? '-';
   const fat = nutrition.fat ?? '-';
   const fiber = nutrition.fiber ?? '-';
-  const servings = estimateServings(recipe);
+  const baseServings = estimateServings(recipe);
+  const servings = adjustServings(baseServings);
   const instructions = Array.isArray(recipe.instructions) ? recipe.instructions : [];
   const tags = Array.isArray(recipe.tags) ? recipe.tags : [];
 
@@ -1687,7 +1819,7 @@ function renderRecipeCard(recipe, score) {
 
       <div class="recipe-title">${recipe.name}</div>
       <div class="recipe-meta">
-        <span><i class="fas fa-users"></i> ${servings}人分</span>
+        <span><i class="fas fa-users"></i> ${servings}人分${servings !== baseServings ? ` (元は${baseServings}人分)` : ''}</span>
         <span class="difficulty-badge difficulty-${recipe.difficulty || ''}">
           ${getDifficultyText(recipe.difficulty)}
         </span>
@@ -1916,6 +2048,21 @@ ingredientSearch.addEventListener('input', () => {
   renderIngredients(ingredientSearch.value.trim());
 });
 
+addAllergyBtn.addEventListener('click', addAllergy);
+familyAdultsInput.addEventListener('change', () => {
+  familyAdults = parseInt(familyAdultsInput.value) || 0;
+  saveFamily();
+});
+familyChildrenInput.addEventListener('change', () => {
+  familyChildren = parseInt(familyChildrenInput.value) || 0;
+  saveFamily();
+});
+allergyInput.addEventListener('keypress', e => {
+  if (e.key === 'Enter') {
+    addAllergy();
+  }
+});
+
 // Allow Enter key to add custom ingredient
 customInput.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
@@ -1944,6 +2091,8 @@ document.addEventListener('DOMContentLoaded', () => {
   init();
   initTextSize();
   initStatsScroll();
+  loadAllergies();
+  loadFamily();
 });
 
 // Demo mode: Auto-select common ingredients for busy moms
