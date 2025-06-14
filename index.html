@@ -1476,16 +1476,26 @@ function initStatsScroll() {
 // Render ingredient cards with emojis
 function renderIngredients(filter = '') {
   ingredientsDiv.innerHTML = '';
-  const list = mamaRecipesData.ingredients.slice().sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+  const list = mamaRecipesData.ingredients.slice().sort((a, b) => {
+    const aSel = selectedIngredients.has(a.name) || requiredIngredients.has(a.name);
+    const bSel = selectedIngredients.has(b.name) || requiredIngredients.has(b.name);
+    if (aSel && !bSel) return -1;
+    if (!aSel && bSel) return 1;
+    return a.name.localeCompare(b.name, 'ja');
+  });
   list.forEach(ingredient => {
     if (filter && !ingredient.name.includes(filter)) return;
     const card = document.createElement('div');
     card.className = 'ingredient-card';
+    if (selectedIngredients.has(ingredient.name) || requiredIngredients.has(ingredient.name)) {
+      card.classList.add('selected');
+    }
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.value = ingredient.name;
     checkbox.id = `ingredient-${ingredient.name}`;
+    checkbox.checked = selectedIngredients.has(ingredient.name) || requiredIngredients.has(ingredient.name);
 
     const star = document.createElement('span');
     star.className = 'require-star';

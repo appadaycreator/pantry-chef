@@ -16,13 +16,20 @@ const required = new Set();
 
 function renderIngredients(filter = '') {
   ingredientsDiv.innerHTML = '';
-  const list = recipesData.ingredients.slice().sort((a, b) => a.localeCompare(b, 'ja'));
+  const list = recipesData.ingredients.slice().sort((a, b) => {
+    const aSel = selected.has(a) || required.has(a);
+    const bSel = selected.has(b) || required.has(b);
+    if (aSel && !bSel) return -1;
+    if (!aSel && bSel) return 1;
+    return a.localeCompare(b, 'ja');
+  });
   list.forEach(ing => {
     if (filter && !ing.includes(filter)) return;
     const label = document.createElement('label');
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.value = ing;
+    checkbox.checked = selected.has(ing) || required.has(ing);
     checkbox.addEventListener('change', e => {
       if (e.target.checked) selected.add(ing); else selected.delete(ing);
     });
