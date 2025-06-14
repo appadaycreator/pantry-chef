@@ -1515,6 +1515,16 @@ function renderRecipeCard(recipe, score) {
   const matchPercentage = Math.round(score * 100);
   const isFavorited = favorites.has(recipe.id);
 
+  const calories = recipe.calories ?? '-';
+  const nutrition = recipe.nutrition || {};
+  const protein = nutrition.protein ?? '-';
+  const carbs = nutrition.carbs ?? '-';
+  const fat = nutrition.fat ?? '-';
+  const fiber = nutrition.fiber ?? '-';
+  const servings = recipe.servings ?? '';
+  const instructions = Array.isArray(recipe.instructions) ? recipe.instructions : [];
+  const tags = Array.isArray(recipe.tags) ? recipe.tags : [];
+
   return `
     <div class="recipe-card">
       <div class="recipe-header accordion-header" onclick="toggleRecipeDetails(event)">
@@ -1525,11 +1535,11 @@ function renderRecipeCard(recipe, score) {
 
       <div class="recipe-title">${recipe.name}</div>
       <div class="recipe-meta">
-        <span><i class="fas fa-users"></i> ${recipe.servings}人分</span>
-        <span class="difficulty-badge difficulty-${recipe.difficulty}">
+        <span><i class="fas fa-users"></i> ${servings}人分</span>
+        <span class="difficulty-badge difficulty-${recipe.difficulty || ''}">
           ${getDifficultyText(recipe.difficulty)}
         </span>
-        <span><i class="fas fa-fire"></i> ${recipe.calories}kcal</span>
+        <span><i class="fas fa-fire"></i> ${calories}kcal</span>
       </div>
       <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
     </div>
@@ -1552,23 +1562,23 @@ function renderRecipeCard(recipe, score) {
         <div class="nutrition-section">
           <div class="nutrition-grid">
             <div class="nutrition-item">
-              <div class="nutrition-value">${recipe.calories}</div>
+              <div class="nutrition-value">${calories}</div>
               <div class="nutrition-label">カロリー</div>
             </div>
             <div class="nutrition-item">
-              <div class="nutrition-value">${recipe.nutrition.protein}g</div>
+              <div class="nutrition-value">${protein}g</div>
               <div class="nutrition-label">たんぱく質</div>
             </div>
             <div class="nutrition-item">
-              <div class="nutrition-value">${recipe.nutrition.carbs}g</div>
+              <div class="nutrition-value">${carbs}g</div>
               <div class="nutrition-label">炭水化物</div>
             </div>
             <div class="nutrition-item">
-              <div class="nutrition-value">${recipe.nutrition.fat}g</div>
+              <div class="nutrition-value">${fat}g</div>
               <div class="nutrition-label">脂質</div>
             </div>
             <div class="nutrition-item">
-              <div class="nutrition-value">${recipe.nutrition.fiber}g</div>
+              <div class="nutrition-value">${fiber}g</div>
               <div class="nutrition-label">食物繊維</div>
             </div>
           </div>
@@ -1579,19 +1589,19 @@ function renderRecipeCard(recipe, score) {
             <i class="fas fa-magic"></i> 作り方（超簡単！）
           </h4>
           <ol class="instructions-list">
-            ${recipe.instructions.map(step => `<li>${step}</li>`).join('')}
+            ${instructions.map(step => `<li>${step}</li>`).join('')}
           </ol>
         </div>
-        
+
         ${recipe.mamaNote ? `
           <div style="background: var(--light-orange); padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid var(--secondary-color);">
             <strong style="color: var(--secondary-color);">👩‍🍳 アドバイス：</strong><br>
             ${recipe.mamaNote}
           </div>
         ` : ''}
-        
+
         <div class="recipe-tags">
-          ${recipe.tags.map(tag => `<span class="recipe-tag">#${tag}</span>`).join('')}
+          ${tags.map(tag => `<span class="recipe-tag">#${tag}</span>`).join('')}
         </div>
         
         <div style="text-align: center; margin-top: 1.5rem;">
