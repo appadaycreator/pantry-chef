@@ -1660,6 +1660,7 @@ function renderRecipeCard(recipe, score) {
         <span class="difficulty-badge difficulty-${recipe.difficulty || ''}">
           ${getDifficultyText(recipe.difficulty)}
         </span>
+        <span><i class="fas fa-utensils"></i> ${getCategoryText(recipe.category)}</span>
         <span><i class="fas fa-fire"></i> ${calories}kcal</span>
       </div>
       <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
@@ -1790,6 +1791,17 @@ function getDifficultyText(difficulty) {
   };
   return difficultyMap[difficulty] || '普通';
 }
+// Get category text in Japanese
+function getCategoryText(category) {
+  const categoryMap = {
+    "main": "メイン料理",
+    "side": "副菜・おかず",
+    "soup": "スープ・汁物",
+    "dessert": "デザート"
+  };
+  return categoryMap[category] || "その他";
+}
+
 
 // Toggle favorite status
 function toggleFavorite(recipeId) {
