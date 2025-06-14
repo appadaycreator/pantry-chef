@@ -1066,12 +1066,12 @@
     <div class="main-container">
       <!-- Quick Stats Section -->
       <div class="quick-stats" id="stats">
-        <div class="stat-card">
+        <div class="stat-card" data-target="#ingredients-section">
           <div class="stat-icon">🥬</div>
           <div class="stat-value" id="selected-count">0</div>
           <div class="stat-label">選択した食材</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card" data-target="#results-section">
           <div class="stat-icon">📱</div>
           <div class="stat-value" id="recipe-count">0</div>
           <div class="stat-label">見つかったレシピ</div>
@@ -1084,7 +1084,7 @@
       </div>
 
       <!-- Ingredients Selection Section -->
-      <section class="mama-section collapsed">
+      <section id="ingredients-section" class="mama-section collapsed">
         <div class="section-header accordion-header" onclick="toggleSection(event)">
           <div class="section-icon">
             <i class="fas fa-carrot"></i>
@@ -1324,6 +1324,21 @@ function initTextSize() {
     document.documentElement.style.fontSize = size + 'px';
     localStorage.setItem('text-size', size);
   });
+}
+
+function initStatsScroll() {
+  if (window.innerWidth <= 768) {
+    document.querySelectorAll('.stat-card[data-target]').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', () => {
+        const selector = card.getAttribute('data-target');
+        const target = document.querySelector(selector);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  }
 }
 
 // Render ingredient cards with emojis
@@ -1801,6 +1816,7 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
   init();
   initTextSize();
+  initStatsScroll();
 });
 
 // Demo mode: Auto-select common ingredients for busy moms
