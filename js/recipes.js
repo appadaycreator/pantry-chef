@@ -22,31 +22,36 @@ const recipesData = {
       id: 1,
       name: 'チキントマト煮',
       ingredients: ['鶏肉', 'トマト', '玉ねぎ'],
-      cookingTime: 30
+      cookingTime: 30,
+      instructions: ['鶏肉を炒める', '玉ねぎとトマトを加える', '煮込んで完成']
     },
     {
       id: 2,
       name: 'オムレツ',
       ingredients: ['卵', '牛乳', '玉ねぎ'],
-      cookingTime: 15
+      cookingTime: 15,
+      instructions: ['卵を溶く', '具材を炒める', '卵を流し込み焼き固める']
     },
     {
       id: 3,
       name: 'トマトスープ',
       ingredients: ['トマト', '玉ねぎ'],
-      cookingTime: 20
+      cookingTime: 20,
+      instructions: ['材料を切る', '鍋で炒める', '水を加えて煮る']
     },
     {
       id: 4,
       name: '豚肉とキャベツのみそ炒め',
       ingredients: ['豚肉', 'キャベツ', 'にんじん', 'ピーマン'],
-      cookingTime: 15
+      cookingTime: 15,
+      instructions: ['具材を切る', '豚肉を炒める', '野菜とみそで味付けする']
     },
     {
       id: 5,
       name: '鮭のバターソテー',
       ingredients: ['鮭', 'バター', '塩'],
-      cookingTime: 12
+      cookingTime: 12,
+      instructions: ['鮭に塩をふる', 'バターで焼く', '両面焼き色が付いたら完成']
     },
     {
       id: 6,
