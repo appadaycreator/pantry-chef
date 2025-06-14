@@ -1210,6 +1210,16 @@
             </div>
             <div class="filter-group">
               <label class="filter-label">
+                <i class="fas fa-fire-extinguisher"></i> 調理方法
+              </label>
+              <select id="method-filter" class="filter-control">
+                <option value="">指定なし</option>
+                <option value="電子レンジ">電子レンジのみ</option>
+                <option value="火を使わない">火を使わない</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label">
                 <i class="fas fa-heart"></i> カロリー上限
               </label>
               <input type="number" id="calorie-filter" class="filter-control" placeholder="例: 400" min="0" max="1000" step="50">
@@ -1333,6 +1343,7 @@ const resultsSection = document.getElementById('results-section');
 const timeFilter = document.getElementById('time-filter');
 const difficultyFilter = document.getElementById('difficulty-filter');
 const categoryFilter = document.getElementById('category-filter');
+const methodFilter = document.getElementById('method-filter');
 const calorieFilter = document.getElementById('calorie-filter');
 const clearBtn = document.getElementById('clear-ingredients');
 
@@ -1562,6 +1573,7 @@ function searchRecipes() {
   const maxTime = parseInt(timeFilter.value) || Infinity;
   const difficulty = difficultyFilter.value;
   const category = categoryFilter.value;
+  const method = methodFilter.value;
   const maxCalories = parseInt(calorieFilter.value) || Infinity;
   
   // Show loading
@@ -1570,11 +1582,12 @@ function searchRecipes() {
   setTimeout(() => {
     currentRecipes = mamaRecipesData.recipes
       .filter(recipe => {
-        return recipe.cookingTime <= maxTime &&
-               (!difficulty || !recipe.difficulty || recipe.difficulty === difficulty) &&
-               (!category || !recipe.category || recipe.category === category) &&
-               (estimateCalories(recipe) <= maxCalories) &&
-               [...requiredIngredients].every(r => recipe.ingredients.includes(r));
+               return recipe.cookingTime <= maxTime &&
+                      (!difficulty || !recipe.difficulty || recipe.difficulty === difficulty) &&
+                      (!category || !recipe.category || recipe.category === category) &&
+                      (!method || !recipe.method || recipe.method === method) &&
+                      (estimateCalories(recipe) <= maxCalories) &&
+                      [...requiredIngredients].every(r => recipe.ingredients.includes(r));
       })
       .map(recipe => ({
         recipe,

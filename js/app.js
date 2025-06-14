@@ -9,6 +9,7 @@ const ingredientSearch = document.getElementById('ingredient-search');
 const searchBtn = document.getElementById('search');
 const resultsDiv = document.getElementById('results');
 const timeFilter = document.getElementById('time-filter');
+const methodFilter = document.getElementById('method-filter');
 
 const selected = new Set();
 const required = new Set();
@@ -91,8 +92,10 @@ function scoreRecipe(recipe) {
 function search() {
   if (selected.size === 0 && required.size === 0) return;
   const maxTime = parseInt(timeFilter.value || '9999', 10);
+  const method = methodFilter ? methodFilter.value : '';
   const matches = recipesData.recipes
     .filter(r => r.cookingTime <= maxTime)
+    .filter(r => !method || (r.method && r.method === method))
     .map(r => ({recipe: r, score: scoreRecipe(r)}))
     .filter(m => m.score > 0)
     .sort((a,b) => b.score - a.score)
