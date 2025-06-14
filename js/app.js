@@ -65,3 +65,20 @@ function search() {
 addBtn.addEventListener('click', addCustomIngredient);
 searchBtn.addEventListener('click', search);
 renderIngredients();
+
+const shareBtn = document.getElementById('share-btn');
+if (shareBtn) {
+  shareBtn.style.display = 'inline-flex';
+  shareBtn.addEventListener('click', () => {
+    const shareData = {
+      title: document.title,
+      url: location.href
+    };
+    if (navigator.share) {
+      navigator.share(shareData);
+    } else {
+      const url = encodeURIComponent(location.href);
+      window.open(`https://twitter.com/intent/tweet?url=${url}`, '_blank');
+    }
+  });
+}
