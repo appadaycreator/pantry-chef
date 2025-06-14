@@ -1908,6 +1908,14 @@ function renderRecipeCard(recipe, score) {
           ${tags.map(tag => `<span class="recipe-tag">#${tag}</span>`).join('')}
         </div>
         
+        <div style="text-align: center; margin-top: 1rem;">
+          <button class="mama-button btn-secondary" onclick="copyShoppingList(${recipe.id})">
+            <i class="fas fa-shopping-cart"></i> 買い物リストをコピー
+          </button>
+          <button class="mama-button btn-secondary" onclick="emailShoppingList(${recipe.id})" style="margin-left:0.5rem;">
+            <i class="fas fa-envelope"></i> メールで送る
+          </button>
+        </div>
         <div style="text-align: center; margin-top: 1.5rem;">
           <button class="mama-button btn-primary" onclick="toggleFavorite(${recipe.id})">
             <i class="fas fa-heart"></i> ${isFavorited ? 'お気に入り登録済み' : 'お気に入りに追加'}
@@ -1992,6 +2000,29 @@ function toggleFavorite(recipeId) {
   }
   saveFavorites();
   renderResults(); // Re-render to update button state
+}
+
+function getMissingIngredients(recipe) {
+  return recipe.ingredients.filter(ing => !selectedIngredients.has(ing));
+}
+
+function copyShoppingList(recipeId) {
+  const recipe = mamaRecipesData.recipes.find(r => r.id === recipeId);
+  if (!recipe) return;
+  const missing = getMissingIngredients(recipe);
+  const text = missing.length ? missing.map(i => `- ${i}`).join('\n') : '必要な食材は全て揃っています';
+  navigator.clipboard.writeText(text)
+    .then(() => showNotification('買い物リストをコピーしました', 'success'))
+    .catch(() => showNotification('コピーに失敗しました', 'warning'));
+}
+
+function emailShoppingList(recipeId) {
+  const recipe = mamaRecipesData.recipes.find(r => r.id === recipeId);
+  if (!recipe) return;
+  const missing = getMissingIngredients(recipe);
+  const body = encodeURIComponent((missing.length ? missing.join('\n') : '必要な食材は全て揃っています') + '\n');
+  const subject = encodeURIComponent(`${recipe.name}の買い物リスト`);
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
 }
 
 // Show notification
