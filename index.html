@@ -279,6 +279,18 @@
       margin-bottom: 2rem;
     }
 
+    .ingredient-search {
+      margin-bottom: 1rem;
+    }
+
+    #ingredient-search {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+
     .ingredients-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -1120,6 +1132,9 @@
 
         <div class="accordion-content">
           <div class="ingredients-container">
+            <div class="ingredient-search">
+              <input type="text" id="ingredient-search" placeholder="食材を検索...">
+            </div>
             <div class="ingredients-grid" id="ingredients"></div>
           </div>
 
@@ -1312,6 +1327,7 @@ const ingredientsDiv = document.getElementById('ingredients');
 const customInput = document.getElementById('custom-ingredient');
 const addBtn = document.getElementById('add-ingredient');
 const searchBtn = document.getElementById('search');
+const ingredientSearch = document.getElementById('ingredient-search');
 const resultsDiv = document.getElementById('results');
 const resultsSection = document.getElementById('results-section');
 const timeFilter = document.getElementById('time-filter');
@@ -1374,9 +1390,11 @@ function initStatsScroll() {
 }
 
 // Render ingredient cards with emojis
-function renderIngredients() {
+function renderIngredients(filter = '') {
   ingredientsDiv.innerHTML = '';
-  mamaRecipesData.ingredients.forEach(ingredient => {
+  const list = mamaRecipesData.ingredients.slice().sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+  list.forEach(ingredient => {
+    if (filter && !ingredient.name.includes(filter)) return;
     const card = document.createElement('div');
     card.className = 'ingredient-card';
 
@@ -1881,6 +1899,9 @@ function updateStats() {
 addBtn.addEventListener('click', addCustomIngredient);
 searchBtn.addEventListener('click', searchRecipes);
 clearBtn.addEventListener('click', clearAllIngredients);
+ingredientSearch.addEventListener('input', () => {
+  renderIngredients(ingredientSearch.value.trim());
+});
 
 // Allow Enter key to add custom ingredient
 customInput.addEventListener('keypress', (e) => {
