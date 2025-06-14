@@ -5,6 +5,7 @@ if ('serviceWorker' in navigator) {
 const ingredientsDiv = document.getElementById('ingredients');
 const customInput = document.getElementById('custom-ingredient');
 const addBtn = document.getElementById('add-ingredient');
+const ingredientSearch = document.getElementById('ingredient-search');
 const searchBtn = document.getElementById('search');
 const resultsDiv = document.getElementById('results');
 const timeFilter = document.getElementById('time-filter');
@@ -12,8 +13,11 @@ const timeFilter = document.getElementById('time-filter');
 const selected = new Set();
 const required = new Set();
 
-function renderIngredients() {
-  recipesData.ingredients.forEach(ing => {
+function renderIngredients(filter = '') {
+  ingredientsDiv.innerHTML = '';
+  const list = recipesData.ingredients.slice().sort((a, b) => a.localeCompare(b, 'ja'));
+  list.forEach(ing => {
+    if (filter && !ing.includes(filter)) return;
     const label = document.createElement('label');
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -109,6 +113,11 @@ function search() {
 
 addBtn.addEventListener('click', addCustomIngredient);
 searchBtn.addEventListener('click', search);
+ingredientSearch.addEventListener('input', () => {
+  const query = ingredientSearch.value.trim();
+  renderIngredients(query);
+});
+
 renderIngredients();
 
 const shareBtn = document.getElementById('share-btn');
