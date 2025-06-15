@@ -14,8 +14,10 @@ window.addEventListener('DOMContentLoaded', () => {
       return;
     }
     const ul = document.createElement('ul');
+    ul.className = 'ingredients-list';
     items.forEach(i => {
       const li = document.createElement('li');
+      li.className = 'ingredient-item';
       li.textContent = i;
       ul.appendChild(li);
     });

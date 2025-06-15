@@ -199,3 +199,46 @@ footer {
 .week-card .recipe-header {
   padding: 1rem 1.5rem;
 }
+
+/* Shopping list styles matching the top page */
+.ingredients-section {
+  margin-bottom: 2rem;
+}
+
+.ingredients-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ingredients-list {
+  list-style: none;
+  background: var(--background);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.ingredient-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.ingredient-item:last-child {
+  border-bottom: none;
+}
+
+.ingredient-available {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.ingredient-missing {
+  color: var(--text-secondary);
+}
