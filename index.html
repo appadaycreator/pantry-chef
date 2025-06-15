@@ -1151,6 +1151,11 @@
           <div class="stat-value">7</div>
           <div class="stat-label">週間献立</div>
         </a>
+        <a href="shopping.html" class="stat-card block">
+          <div class="stat-icon">🛒</div>
+          <div class="stat-value">&nbsp;</div>
+          <div class="stat-label">買い物リスト</div>
+        </a>
       </div>
 
       <!-- Ingredients Selection Section -->
@@ -1921,9 +1926,6 @@ function renderRecipeCard(recipe, score) {
           <button class="mama-button btn-secondary" onclick="copyShoppingList(${recipe.id})">
             <i class="fas fa-shopping-cart"></i> 買い物リストをコピー
           </button>
-          <button class="mama-button btn-secondary" onclick="emailShoppingList(${recipe.id})" style="margin-left:0.5rem;">
-            <i class="fas fa-envelope"></i> メールで送る
-          </button>
         </div>
       </div>
     </div>
@@ -2018,15 +2020,11 @@ function copyShoppingList(recipeId) {
   navigator.clipboard.writeText(text)
     .then(() => showNotification('買い物リストをコピーしました', 'success'))
     .catch(() => showNotification('コピーに失敗しました', 'warning'));
-}
-
-function emailShoppingList(recipeId) {
-  const recipe = mamaRecipesData.recipes.find(r => r.id === recipeId);
-  if (!recipe) return;
-  const missing = getMissingIngredients(recipe);
-  const body = encodeURIComponent((missing.length ? missing.join('\n') : '必要な食材は全て揃っています') + '\n');
-  const subject = encodeURIComponent(`${recipe.name}の買い物リスト`);
-  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  try {
+    localStorage.setItem('mama-shopping-list', JSON.stringify(missing));
+  } catch (e) {
+    console.log('Cannot save shopping list:', e);
+  }
 }
 
 // Show notification
