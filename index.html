@@ -297,6 +297,45 @@
       gap: 1rem;
     }
 
+    .starter-section {
+      margin-bottom: 1rem;
+    }
+
+    .selected-area {
+      border: 2px dashed var(--accent-color);
+      padding: 0.5rem;
+      min-height: 40px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .selected-area.drag-over {
+      background: var(--light-orange);
+    }
+
+    .selected-placeholder {
+      color: var(--text-secondary);
+    }
+
+    .selected-chip {
+      background: var(--accent-color);
+      color: white;
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    .selected-chip .remove-chip {
+      cursor: pointer;
+    }
+
     .ingredient-card {
       background: var(--surface);
       border: 2px solid transparent;
@@ -1181,11 +1220,23 @@
             <div class="ingredient-search">
               <input type="text" id="ingredient-search" placeholder="食材を検索...">
             </div>
+
+            <div class="starter-section">
+              <h3>スタメン食材</h3>
+              <div class="ingredients-grid" id="starter-ingredients"></div>
+            </div>
+
+            <div id="selected-area" class="selected-area">
+              <div id="selected-chips" class="selected-chips"></div>
+              <span class="selected-placeholder">ここに食材をドラッグして追加</span>
+            </div>
+
             <div class="clear-ingredients">
               <button class="mama-button btn-secondary" id="clear-ingredients">
                 <i class="fas fa-undo"></i> 全てのチェックを外す
               </button>
             </div>
+
             <div class="ingredients-grid" id="ingredients"></div>
           </div>
 
@@ -1435,6 +1486,11 @@ const addAllergyBtn = document.getElementById('add-allergy');
 const allergyListEl = document.getElementById('allergy-list');
 const familyAdultsInput = document.getElementById('family-adults');
 const familyChildrenInput = document.getElementById('family-children');
+const starterContainer = document.getElementById('starter-ingredients');
+const dropZone = document.getElementById('selected-area');
+const selectedChips = document.getElementById('selected-chips');
+
+const starterIngredients = ['玉ねぎ', '卵', '牛乳'];
 
 // Stats elements
 const selectedCountEl = document.getElementById('selected-count');
@@ -1443,8 +1499,10 @@ const totalRecipeCountEl = document.getElementById('total-recipe-count')
 
 // Initialize the app
 function init() {
+  renderStarterIngredients();
   renderIngredients();
   loadFavorites();
+  setupDragAndDrop();
   updateStats();
   
   // Set default filters for busy moms
@@ -1489,74 +1547,148 @@ function initStatsScroll() {
   }
 }
 
+function createIngredientCard(ingredient) {
+  const card = document.createElement('div');
+  card.className = 'ingredient-card';
+  card.draggable = true;
+  if (selectedIngredients.has(ingredient.name) || requiredIngredients.has(ingredient.name)) {
+    card.classList.add('selected');
+  }
+
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.value = ingredient.name;
+  checkbox.id = `ingredient-${ingredient.name}`;
+  checkbox.checked = selectedIngredients.has(ingredient.name) || requiredIngredients.has(ingredient.name);
+
+  const star = document.createElement('span');
+  star.className = 'require-star';
+  star.textContent = '★';
+  if (requiredIngredients.has(ingredient.name)) star.classList.add('required');
+  star.addEventListener('click', e => {
+    e.stopPropagation();
+    if (requiredIngredients.has(ingredient.name)) {
+      requiredIngredients.delete(ingredient.name);
+      star.classList.remove('required');
+    } else {
+      requiredIngredients.add(ingredient.name);
+      star.classList.add('required');
+      if (!checkbox.checked) {
+        checkbox.checked = true;
+        toggleIngredient(ingredient.name, true);
+        card.classList.add('selected');
+      }
+    }
+    updateStats();
+  });
+
+  card.innerHTML = `
+    <span class="ingredient-emoji">${ingredient.emoji}</span>
+    <span class="ingredient-name">${ingredient.name}</span>
+  `;
+  card.appendChild(checkbox);
+  card.appendChild(star);
+
+  card.addEventListener('click', e => {
+    if (e.target.type !== 'checkbox') {
+      checkbox.checked = !checkbox.checked;
+    }
+    toggleIngredient(ingredient.name, checkbox.checked);
+    card.classList.toggle('selected', checkbox.checked);
+  });
+
+  checkbox.addEventListener('change', e => {
+    toggleIngredient(ingredient.name, e.target.checked);
+    card.classList.toggle('selected', e.target.checked);
+  });
+
+  card.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text/plain', ingredient.name);
+  });
+
+  return card;
+}
+
 // Render ingredient cards with emojis
 function renderIngredients(filter = '') {
   ingredientsDiv.innerHTML = '';
-  const list = mamaRecipesData.ingredients.slice().sort((a, b) => {
-    const aSel = selectedIngredients.has(a.name) || requiredIngredients.has(a.name);
-    const bSel = selectedIngredients.has(b.name) || requiredIngredients.has(b.name);
-    if (aSel && !bSel) return -1;
-    if (!aSel && bSel) return 1;
-    return a.name.localeCompare(b.name, 'ja');
-  });
+  const list = mamaRecipesData.ingredients
+    .filter(ing => !starterIngredients.includes(ing.name))
+    .slice()
+    .sort((a, b) => {
+      const aSel = selectedIngredients.has(a.name) || requiredIngredients.has(a.name);
+      const bSel = selectedIngredients.has(b.name) || requiredIngredients.has(b.name);
+      if (aSel && !bSel) return -1;
+      if (!aSel && bSel) return 1;
+      return a.name.localeCompare(b.name, 'ja');
+    });
   list.forEach(ingredient => {
     if (filter && !ingredient.name.includes(filter)) return;
-    const card = document.createElement('div');
-    card.className = 'ingredient-card';
-    if (selectedIngredients.has(ingredient.name) || requiredIngredients.has(ingredient.name)) {
-      card.classList.add('selected');
+    const card = createIngredientCard(ingredient);
+    ingredientsDiv.appendChild(card);
+  });
+}
+
+function renderStarterIngredients() {
+  if (!starterContainer) return;
+  starterContainer.innerHTML = '';
+  starterIngredients.forEach(name => {
+    const ingredient = mamaRecipesData.ingredients.find(i => i.name === name);
+    if (ingredient) {
+      const card = createIngredientCard(ingredient);
+      starterContainer.appendChild(card);
     }
+  });
+}
 
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.value = ingredient.name;
-    checkbox.id = `ingredient-${ingredient.name}`;
-    checkbox.checked = selectedIngredients.has(ingredient.name) || requiredIngredients.has(ingredient.name);
+function setupDragAndDrop() {
+  if (!dropZone) return;
+  dropZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    dropZone.classList.add('drag-over');
+  });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    const name = e.dataTransfer.getData('text/plain');
+    if (name) {
+      toggleIngredient(name, true);
+      const card = document.querySelector(`#ingredient-${name}`)?.closest('.ingredient-card');
+      if (card) {
+        const cb = card.querySelector('input[type="checkbox"]');
+        if (cb) cb.checked = true;
+        card.classList.add('selected');
+      }
+    }
+  });
+}
 
-    const star = document.createElement('span');
-    star.className = 'require-star';
-    star.textContent = '★';
-    if (requiredIngredients.has(ingredient.name)) star.classList.add('required');
-    star.addEventListener('click', e => {
-      e.stopPropagation();
-      if (requiredIngredients.has(ingredient.name)) {
-        requiredIngredients.delete(ingredient.name);
-        star.classList.remove('required');
-      } else {
-        requiredIngredients.add(ingredient.name);
-        star.classList.add('required');
-        if (!checkbox.checked) {
-          checkbox.checked = true;
-          toggleIngredient(ingredient.name, true);
-          card.classList.add('selected');
-        }
+function renderSelectedChips() {
+  if (!selectedChips) return;
+  const items = [...selectedIngredients, ...requiredIngredients];
+  selectedChips.innerHTML = items.map(name => {
+    const ing = mamaRecipesData.ingredients.find(i => i.name === name);
+    const emoji = ing ? ing.emoji : '🥘';
+    return `<span class="selected-chip">${emoji} ${name}<span class="remove-chip" data-name="${name}">&times;</span></span>`;
+  }).join('');
+  document.querySelectorAll('.remove-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const n = btn.getAttribute('data-name');
+      selectedIngredients.delete(n);
+      requiredIngredients.delete(n);
+      const card = document.querySelector(`#ingredient-${n}`)?.closest('.ingredient-card');
+      if (card) {
+        const cb = card.querySelector('input[type="checkbox"]');
+        if (cb) cb.checked = false;
+        card.classList.remove('selected');
+        card.querySelector('.require-star')?.classList.remove('required');
       }
       updateStats();
     });
-
-    card.innerHTML = `
-      <span class="ingredient-emoji">${ingredient.emoji}</span>
-      <span class="ingredient-name">${ingredient.name}</span>
-    `;
-    card.appendChild(checkbox);
-    card.appendChild(star);
-    
-    // Event listeners
-    card.addEventListener('click', (e) => {
-      if (e.target.type !== 'checkbox') {
-        checkbox.checked = !checkbox.checked;
-      }
-      toggleIngredient(ingredient.name, checkbox.checked);
-      card.classList.toggle('selected', checkbox.checked);
-    });
-    
-    checkbox.addEventListener('change', (e) => {
-      toggleIngredient(ingredient.name, e.target.checked);
-      card.classList.toggle('selected', e.target.checked);
-    });
-    
-    ingredientsDiv.appendChild(card);
   });
+  const placeholder = document.querySelector('.selected-placeholder');
+  if (placeholder) placeholder.style.display = items.length ? 'none' : 'block';
 }
 
 // Toggle ingredient selection
@@ -1573,45 +1705,19 @@ function toggleIngredient(ingredient, isSelected) {
 function addCustomIngredient() {
   const ingredient = customInput.value.trim();
   if (!ingredient) return;
-  
+
   if (selectedIngredients.has(ingredient)) {
     showNotification('この食材は既に選択されています', 'warning');
     return;
   }
-  
-  selectedIngredients.add(ingredient);
-  
-  // Add to UI
-  const card = document.createElement('div');
-  card.className = 'ingredient-card selected';
-  card.innerHTML = `
-    <span class="ingredient-emoji">🥘</span>
-    <span class="ingredient-name">${ingredient}</span>
-    <input type="checkbox" checked>
-  `;
-  const star = document.createElement('span');
-  star.className = 'require-star';
-  star.textContent = '★';
-  star.addEventListener('click', e => {
-    e.stopPropagation();
-    if (requiredIngredients.has(ingredient)) {
-      requiredIngredients.delete(ingredient);
-      star.classList.remove('required');
-    } else {
-      requiredIngredients.add(ingredient);
-      star.classList.add('required');
-    }
-    updateStats();
-  });
 
-  card.addEventListener('click', () => {
-    selectedIngredients.delete(ingredient);
-    card.remove();
-    updateStats();
-  });
-  
+  selectedIngredients.add(ingredient);
+
+  const card = createIngredientCard({ name: ingredient, emoji: '🥘' });
+  card.classList.add('selected');
+  const checkbox = card.querySelector('input[type="checkbox"]');
+  if (checkbox) checkbox.checked = true;
   ingredientsDiv.appendChild(card);
-  card.appendChild(star);
   customInput.value = '';
   updateStats();
   showNotification('食材を追加しました！', 'success');
@@ -2090,6 +2196,7 @@ function updateStats() {
   selectedCountEl.textContent = selectedIngredients.size + requiredIngredients.size;
   recipeCountEl.textContent = currentRecipes.length;
   totalRecipeCountEl.textContent = mamaRecipesData.recipes.length;
+  renderSelectedChips();
 
 }
 
