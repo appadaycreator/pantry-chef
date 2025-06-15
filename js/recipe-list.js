@@ -2,10 +2,14 @@ function renderRecipes() {
   const listEl = document.getElementById('recipe-list');
   const search = document.getElementById('recipe-search').value.trim();
   const sort = document.getElementById('recipe-sort').value;
+  const category = document.getElementById('category-filter').value;
 
   let list = recipesData.recipes.slice();
   if (search) {
     list = list.filter(r => r.name.includes(search) || r.ingredients.some(i => i.includes(search)));
+  }
+  if (category) {
+    list = list.filter(r => r.category === category);
   }
   if (sort === 'name') {
     list.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
@@ -33,6 +37,7 @@ function renderRecipes() {
 
 document.getElementById('recipe-search').addEventListener('input', renderRecipes);
 document.getElementById('recipe-sort').addEventListener('change', renderRecipes);
+document.getElementById('category-filter').addEventListener('change', renderRecipes);
 
 // 初期表示
 renderRecipes();
