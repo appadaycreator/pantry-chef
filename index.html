@@ -301,6 +301,12 @@
       margin-bottom: 1rem;
     }
 
+    .starter-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin: 0.2rem 0 0.8rem;
+    }
+
     .selected-area {
       border: 2px dashed var(--accent-color);
       padding: 0.5rem;
@@ -496,6 +502,7 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .filter-control {
@@ -1223,6 +1230,7 @@
 
             <div class="starter-section">
               <h3>スタメン食材</h3>
+              <p class="starter-desc">よく使う食材を登録しています。クリックまたはドラッグして選択してください。</p>
               <div class="ingredients-grid" id="starter-ingredients"></div>
             </div>
 
