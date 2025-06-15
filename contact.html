@@ -8,13 +8,14 @@
 </head>
 <body class="bg-gray-50 text-gray-800 pt-16">
   <header id="site-header" class="fixed top-0 left-0 right-0 bg-green-600 text-white z-50">
-    <nav class="max-w-4xl mx-auto flex justify-between items-center p-3">
+    <nav class="relative max-w-4xl mx-auto flex justify-between items-center p-3">
       <a href="index.html" class="font-bold text-lg">PantryChef Pro</a>
-      <ul class="flex space-x-4 text-sm">
-        <li><a href="recipes.html" class="hover:underline">レシピ</a></li>
-        <li><a href="shopping.html" class="hover:underline">買い物リスト</a></li>
-        <li><a href="weekly.html" class="hover:underline">週間献立</a></li>
-        <li><a href="contact.html" class="hover:underline">お問い合わせ</a></li>
+      <button id="menu-toggle" class="md:hidden focus:outline-none text-2xl" aria-label="メニュー">&#9776;</button>
+      <ul id="menu" class="hidden md:flex md:space-x-4 text-sm absolute md:static top-full left-0 w-full bg-green-600 md:bg-transparent">
+        <li><a href="recipes.html" class="block px-3 py-2 hover:underline">レシピ</a></li>
+        <li><a href="shopping.html" class="block px-3 py-2 hover:underline">買い物リスト</a></li>
+        <li><a href="weekly.html" class="block px-3 py-2 hover:underline">週間献立</a></li>
+        <li><a href="contact.html" class="block px-3 py-2 hover:underline">お問い合わせ</a></li>
       </ul>
     </nav>
   </header>
@@ -35,7 +36,8 @@
       </div>
       <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">送信</button>
     </form>
-    <a href="index.html" class="text-blue-600 underline block mt-4">トップページへ戻る</a>
+  <a href="index.html" class="text-blue-600 underline block mt-4">トップページへ戻る</a>
   </main>
 </body>
+<script src="js/header.js"></script>
 </html>
