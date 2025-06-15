@@ -46,7 +46,7 @@ function generateWeeklyMenu() {
     const soup = pickRecipe(soups, seasonIngs);
 
     const card = document.createElement('div');
-    card.className = 'border bg-white p-2 rounded';
+    card.className = 'recipe-card';
     card.innerHTML = `
       <div class="font-bold">${days[i]}曜日</div>
       <div>メイン: ${main.name}</div>
