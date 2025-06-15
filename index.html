@@ -1062,6 +1062,12 @@
     .recipe-card .recipe-header {
       padding-bottom: 3rem; padding-right: 3rem;
     }
+    .source-link {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      text-align: center;
+    }
   }
 
   /* PDF Export Optimization */
@@ -1895,6 +1901,9 @@ function renderRecipeCard(recipe, score) {
 
         <div class="source-link">
           <button class="mama-button btn-secondary" onclick="window.open('${recipe.source}', '_blank')">Cookpadで調べる</button>
+          <button class="mama-button btn-primary" onclick="toggleFavorite(${recipe.id})" style="margin-left:0.5rem;">
+            <i class="fas fa-heart"></i> ${isFavorited ? 'お気に入り登録済み' : 'お気に入りに追加'}
+          </button>
         </div>
 
         ${recipe.mamaNote ? `
@@ -1914,11 +1923,6 @@ function renderRecipeCard(recipe, score) {
           </button>
           <button class="mama-button btn-secondary" onclick="emailShoppingList(${recipe.id})" style="margin-left:0.5rem;">
             <i class="fas fa-envelope"></i> メールで送る
-          </button>
-        </div>
-        <div style="text-align: center; margin-top: 1.5rem;">
-          <button class="mama-button btn-primary" onclick="toggleFavorite(${recipe.id})">
-            <i class="fas fa-heart"></i> ${isFavorited ? 'お気に入り登録済み' : 'お気に入りに追加'}
           </button>
         </div>
       </div>
