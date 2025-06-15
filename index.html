@@ -297,15 +297,6 @@
       gap: 1rem;
     }
 
-    .starter-section {
-      margin-bottom: 1rem;
-    }
-
-    .starter-desc {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      margin: 0.2rem 0 0.8rem;
-    }
 
     .selected-area {
       border: 2px dashed var(--accent-color);
@@ -1243,11 +1234,6 @@
               <input type="text" id="ingredient-search" placeholder="食材を検索...">
             </div>
 
-            <div class="starter-section">
-              <h3>スタメン食材</h3>
-              <p class="starter-desc">よく使う食材を登録しています。クリックまたはドラッグして選択してください。</p>
-              <div class="ingredients-grid" id="starter-ingredients"></div>
-            </div>
 
             <div id="selected-area" class="selected-area">
               <div id="selected-chips" class="selected-chips"></div>
@@ -1512,11 +1498,8 @@ const addAllergyBtn = document.getElementById('add-allergy');
 const allergyListEl = document.getElementById('allergy-list');
 const familyAdultsInput = document.getElementById('family-adults');
 const familyChildrenInput = document.getElementById('family-children');
-const starterContainer = document.getElementById('starter-ingredients');
 const dropZone = document.getElementById('selected-area');
 const selectedChips = document.getElementById('selected-chips');
-
-const starterIngredients = ['玉ねぎ', '卵', '牛乳'];
 
 // Stats elements
 const selectedCountEl = document.getElementById('selected-count');
@@ -1525,7 +1508,6 @@ const totalRecipeCountEl = document.getElementById('total-recipe-count')
 
 // Initialize the app
 function init() {
-  renderStarterIngredients();
   renderIngredients();
   loadFavorites();
   setupDragAndDrop();
@@ -1639,7 +1621,6 @@ function createIngredientCard(ingredient) {
 function renderIngredients(filter = '') {
   ingredientsDiv.innerHTML = '';
   const list = mamaRecipesData.ingredients
-    .filter(ing => !starterIngredients.includes(ing.name))
     .slice()
     .sort((a, b) => {
       const aSel = selectedIngredients.has(a.name) || requiredIngredients.has(a.name);
@@ -1655,17 +1636,6 @@ function renderIngredients(filter = '') {
   });
 }
 
-function renderStarterIngredients() {
-  if (!starterContainer) return;
-  starterContainer.innerHTML = '';
-  starterIngredients.forEach(name => {
-    const ingredient = mamaRecipesData.ingredients.find(i => i.name === name);
-    if (ingredient) {
-      const card = createIngredientCard(ingredient);
-      starterContainer.appendChild(card);
-    }
-  });
-}
 
 function setupDragAndDrop() {
   if (!dropZone) return;
